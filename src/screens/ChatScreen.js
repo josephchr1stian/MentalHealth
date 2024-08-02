@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -122,12 +128,12 @@ export default function ChatScreen({ navigation }) {
           </TouchableOpacity>
         ))}
         <ScrollView
-        horizontal={false}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.stories}
-      >
-        <LoadingChats/>
-      </ScrollView>
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.stories}
+        >
+          <LoadingChats />
+        </ScrollView>
       </View>
       <FAB //initiatives button
         style={styles.addButton}
@@ -142,16 +148,8 @@ export default function ChatScreen({ navigation }) {
         icon={{ name: "edit", color: "white" }}
         color="#3CB2E2"
       />
-      <Actions
-        isVisible={actionsVisible}
-        onClose={toggleActions}
-      />
-      <Disclaimer
-        isVisible={disclaimerVisible}
-        onClose={toggleDisclaimer}
-      />
-
-      
+      <Actions isVisible={actionsVisible} onClose={toggleActions} />
+      <Disclaimer isVisible={disclaimerVisible} onClose={toggleDisclaimer} />
     </View>
   );
 }

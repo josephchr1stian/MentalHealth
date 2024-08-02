@@ -12,7 +12,9 @@ export default function LoadingChats() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const { data, error } = await supabase.from("profiles").select("id, username");
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, username");
 
         if (error) {
           console.error("Error fetching users:", error.message);
