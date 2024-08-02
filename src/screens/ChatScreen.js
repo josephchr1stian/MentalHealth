@@ -120,14 +120,14 @@ export default function ChatScreen({ navigation }) {
         style={styles.addButton}
         visible={true}
         icon={{ name: "star", color: "white" }}
-        color="#3CB2E2"
+        color="#FF3386"
         onPress={toggleComponent}
       />
       <FAB
         style={styles.addButtonSecond}
         visible={true}
         icon={{ name: "edit", color: "white" }}
-        color="#FF3386"
+        color="#3CB2E2"
       />
       <Actions
         isVisible={visible}
