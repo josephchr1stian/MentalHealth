@@ -1,41 +1,53 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FAB } from "@rneui/themed";
 import Header from "../components/Header";
 import { CHATBOTS } from "./ConversationScreen";
+import LoadingChats from "../components/LoadingChats";
 
 import AddEvent from "../components/AddEvent";
 import Actions from "../components/Actions";
 import PinnedBotBitmoji from "../components/PinnedBotBitmoji";
+import Disclaimer from "../components/Disclaimer";
 
 export default function ChatScreen({ navigation }) {
   const [chats, setChats] = useState([]);
   const [detailsVisible, setDetailsVisible] = useState(false);
-  const [visible, setVisible] = useState(false);
+  const [actionsVisible, setActionsVisible] = useState(false);
+  const [disclaimerVisible, setDisclaimerVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
 
-  function toggleComponent() {
-    console.log("Pressed Star");
-    setVisible(!visible);
-    console.log(visible);
+  function toggleActions() {
+    console.log("Toggle Actions");
+    setActionsVisible(!actionsVisible);
+  }
+
+  function toggleDisclaimer() {
+    console.log("Toggle Disclaimer");
+    setDisclaimerVisible(!disclaimerVisible);
   }
 
   function handleCardTouch(event) {
     setDetailsVisible(true);
-    console.log(detailsVisible);
     setSelectedEvent(event);
   }
+
   function getChatbots() {
     let chatbotsTemp = [];
     for (const botId in CHATBOTS) {
       chatbotsTemp.push({ isChatbot: true, chatId: botId });
     }
-
     setChats((otherChats) => [...otherChats, ...chatbotsTemp]);
   }
 
@@ -44,7 +56,6 @@ export default function ChatScreen({ navigation }) {
       getChatbots();
     }
   }, [chats.length]);
-
   return (
     <View
       style={[
@@ -73,13 +84,14 @@ export default function ChatScreen({ navigation }) {
           <PinnedBotBitmoji name={"MyAI"}></PinnedBotBitmoji>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Conversation", {
-              isChatbot: false,
-              chatId: 1,
-            });
-          }}
-          key={1}
+          onPress={toggleDisclaimer}
+          // {() => {
+          //   navigation.navigate("Conversation", {
+          //     isChatbot: false,
+          //     chatId: 1,
+          //   });
+          // }}
+          // key={1}
         >
           <PinnedBotBitmoji
             name={"MyWellness"}
@@ -115,26 +127,29 @@ export default function ChatScreen({ navigation }) {
             />
           </TouchableOpacity>
         ))}
+        <ScrollView
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.stories}
+        >
+          <LoadingChats />
+        </ScrollView>
       </View>
-      <FAB // Button for bring up dialogue
+      <FAB //initiatives button
         style={styles.addButton}
         visible={true}
         icon={{ name: "star", color: "white" }}
-        color="#3CB2E2"
-        onPress={toggleComponent}
+        color="#FF3386"
+        onPress={toggleActions}
       />
       <FAB
         style={styles.addButtonSecond}
         visible={true}
         icon={{ name: "edit", color: "white" }}
-        color="#FF3386"
+        color="#3CB2E2"
       />
-      <Actions
-        isVisible={visible}
-        onClose={() => {
-          toggleComponent();
-        }}
-      />
+      <Actions isVisible={actionsVisible} onClose={toggleActions} />
+      <Disclaimer isVisible={disclaimerVisible} onClose={toggleDisclaimer} />
     </View>
   );
 }
