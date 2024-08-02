@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Pressable } from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function LoadingChats() {
   const [usersToAdd, setUsersToAdd] = useState([]);
@@ -105,14 +106,12 @@ export default function LoadingChats() {
           <View key={index} style={styles.myBitmoji}>
             <Image style={styles.bitmojiImage} source={defaultPhoto} />
             <Text style={styles.bitmojiText}>{user.name}</Text>
-            <Pressable
-              style={styles.addButton}
-              onPress={async () => {
-                await addFriend(user);
-              }}
-            >
-              <Text style={styles.addButtonText}>Quick Add</Text>
-            </Pressable>
+            <Ionicons
+              style={styles.userCamera}
+              name="camera-outline"
+              size={24}
+              color="lightgrey"
+            />
           </View>
         ))}
     </View>
@@ -154,4 +153,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "black",
   },
+//   userCamera: {
+//     position: "absolute",
+//     right: 15,
+//     top: 10,
+//   },
 });
