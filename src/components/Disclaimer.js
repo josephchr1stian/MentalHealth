@@ -5,20 +5,17 @@ import { supabase } from "../utils/hooks/supabase";
 import { Dialog } from "@rneui/themed";
 
 export default function Disclaimer({ isVisible, onClose }) {
-  const [title, setTitle] = useState("");
-  const [descr, setDescr] = useState("");
-  const [time, setTime] = useState("");
-  const [location, setLocation] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  const [event, setEvent] = useState({});
-
   return (
     <Dialog
       overlayStyle={styles.DialogueBox}
       isVisible={isVisible}
       onBackdropPress={onClose}
     >
-      <Text style={styles.eventText}>Intro to Wellness</Text>
+      <Text style={styles.titleText}>Intro to Wellness</Text>
+      <Text style={styles.disclaimerText}>
+        This AI is not a therapist. It is here to help you explore your thoughts
+        and emotions and to aid in self-reflection.
+      </Text>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Something</Text>
       </TouchableOpacity>
@@ -30,10 +27,16 @@ const styles = StyleSheet.create({
   DialogueBox: {
     borderRadius: 20,
   },
-  eventText: {
+  titleText: {
     textAlign: "center",
     fontSize: 23,
     fontWeight: "bold",
+    marginBottom: 20,
+  },
+  disclaimerText: {
+    textAlign: "center",
+    fontSize: 15,
+    //fontWeight: "bold",
     marginBottom: 20,
   },
   button: {
