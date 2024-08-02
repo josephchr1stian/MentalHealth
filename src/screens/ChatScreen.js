@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { FAB } from "@rneui/themed";
 import Header from "../components/Header";
 import { CHATBOTS } from "./ConversationScreen";
+import LoadingChats from "../components/LoadingChats";
 
 import AddEvent from "../components/AddEvent";
 import Actions from "../components/Actions";
@@ -120,6 +121,13 @@ export default function ChatScreen({ navigation }) {
             />
           </TouchableOpacity>
         ))}
+        <ScrollView
+        horizontal={false}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.stories}
+      >
+        <LoadingChats/>
+      </ScrollView>
       </View>
       <FAB //initiatives button
         style={styles.addButton}
