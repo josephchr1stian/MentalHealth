@@ -3,7 +3,26 @@ import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { fontHeader } from "../../assets/themes/font";
 import { colors } from "../../assets/themes/colors";
 
-export default function PinnedBotBitmoji({name="defualtName", streak = 3 , imgSource=require("../../assets/snapchat/personalBitmoji.png")}) {
+
+
+export default function PinnedBotBitmoji({name="defualtName", streak = {} , imgSource=require("../../assets/snapchat/personalBitmoji.png")}) {
+  
+  function pickEmoji(streak){
+    if( streak < 3){
+      return null
+    }
+    else if (streak <= 6){
+      return streak + " " + '🌱'
+    }
+    else if (streak <= 7){
+      return streak + " " + '🪴'
+    }
+    else if (streak > 7){
+      return streak + " " + '🌷'
+    }
+
+  }
+
   return (
     <View style={styles.myBitmoji}>
       <Image
@@ -13,7 +32,7 @@ export default function PinnedBotBitmoji({name="defualtName", streak = 3 , imgSo
       />
       <View style={styles.bitmojiTextContainer}>
         <Text style={styles.bitmojiText}>{name}</Text>
-        <Text style = {styles.bitmojiText}> {streak}  🌱 </Text>
+        <Text style = {styles.bitmojiText}> {pickEmoji(streak)} </Text>
       </View>
     </View>
   );

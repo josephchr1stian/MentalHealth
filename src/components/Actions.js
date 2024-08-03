@@ -6,7 +6,7 @@ import { Dialog } from "@rneui/themed";
 import { ScrollView } from "react-native-gesture-handler";
 import { FAB } from "react-native-elements";
 
-export default function Actions({ isVisible, onClose }) {
+export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
   const [descr, setDescr] = useState("");
   const [time, setTime] = useState("");
@@ -42,7 +42,7 @@ export default function Actions({ isVisible, onClose }) {
         {actions.map((action) => (
           <View style ={styles.textAndButt}>
             <Text style = {styles.context}> {action.prompts.context} </Text>
-            <FAB color = {action.prompts.color} title={action.prompts.prompt}> </FAB>
+            <FAB onPress={updateStreak} color = {action.prompts.color} title={action.prompts.prompt}> </FAB>
           </View>
         ))}
       </ScrollView>
