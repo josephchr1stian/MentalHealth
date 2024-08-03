@@ -4,6 +4,7 @@ import { supabase } from "../utils/hooks/supabase";
 import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function LoadingChats() {
   const [usersToAdd, setUsersToAdd] = useState([]);
@@ -103,15 +104,17 @@ export default function LoadingChats() {
       {usersToAdd
         .filter((userToAdd) => !currentFriends.includes(userToAdd.id))
         .map((user, index) => (
-          <View key={index} style={styles.myBitmoji}>
-            <Image style={styles.bitmojiImage} source={defaultPhoto} />
-            <Text style={styles.bitmojiText}>{user.name}</Text>
-            <Ionicons
-              style={styles.userCamera}
-              name="camera-outline"
-              size={24}
-              color="lightgrey"
-            />
+          <View key={index} >
+            <TouchableOpacity style={styles.userContainer} onPress={console.log("i was pressed")}>
+              <Image style={styles.bitmojiImage} source={defaultPhoto} />
+              <Text style={styles.bitmojiText}>{user.name}</Text>
+              <Ionicons
+                style={styles.userCamera}
+                name="camera-outline"
+                size={24}
+                color="lightgrey"
+              />
+            </TouchableOpacity>
           </View>
         ))}
     </View>
@@ -123,12 +126,12 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
   },
-  myBitmoji: {
+  userContainer: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
+    borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
-    borderColor: "#ccc",
     marginBottom: 15,
   },
   bitmojiImage: {
@@ -153,9 +156,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "black",
   },
-//   userCamera: {
-//     position: "absolute",
-//     right: 15,
-//     top: 10,
-//   },
+  //   userCamera: {
+  //     position: "absolute",
+  //     right: 15,
+  //     top: 10,
+  //   },
 });
