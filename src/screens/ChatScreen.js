@@ -25,6 +25,8 @@ export default function ChatScreen({ navigation }) {
   const [actionsVisible, setActionsVisible] = useState(false);
   const [disclaimerVisible, setDisclaimerVisible] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [streakDone, setStreakDone] = useState(false);
+  const [streak, setStreak] = useState(6);
   const insets = useSafeAreaInsets();
   const tabBarHeight = useBottomTabBarHeight();
 
@@ -41,6 +43,16 @@ export default function ChatScreen({ navigation }) {
   function handleCardTouch(event) {
     setDetailsVisible(true);
     setSelectedEvent(event);
+  }
+
+
+  function updateStreak(){
+    if (streakDone === false) { // If we didnt do it today
+      setStreak(streak + 1) // add one
+      setStreakDone(true)
+    } 
+    // Call this when user clicks a button on the Snap daily
+
   }
 
   function getChatbots() {
@@ -81,22 +93,20 @@ export default function ChatScreen({ navigation }) {
           }}
           key={1}
         >
-          <PinnedBotBitmoji name={"MyAI"}></PinnedBotBitmoji>
+          <PinnedBotBitmoji 
+            name={"MyAI"}>
+            
+          </PinnedBotBitmoji>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={toggleDisclaimer}
-          // {() => {
-          //   navigation.navigate("Conversation", {
-          //     isChatbot: false,
-          //     chatId: 1,
-          //   });
-          // }}
-          // key={1}
         >
           <PinnedBotBitmoji
-            name={"MyWellness"}
-            imgSource={require("../../assets/sign-images/cancer.png")}
+            name={"Whisper"}
+            imgSource={require("../../assets/snapchat/ghostFlat.png")}
+            streak={streak} // State Variable we can update
           ></PinnedBotBitmoji>
+
         </TouchableOpacity>
       </View>
 
@@ -148,7 +158,10 @@ export default function ChatScreen({ navigation }) {
         icon={{ name: "edit", color: "white" }}
         color="#3CB2E2"
       />
-      <Actions isVisible={actionsVisible} onClose={toggleActions} />
+      <Actions isVisible={actionsVisible} 
+      onClose={toggleActions} 
+       // Pass the function to actions, call it on press for any of the buttons
+      updateStreak = {updateStreak} />
       <Disclaimer isVisible={disclaimerVisible} onClose={toggleDisclaimer} />
     </View>
   );

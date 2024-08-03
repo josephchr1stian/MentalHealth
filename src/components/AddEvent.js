@@ -28,7 +28,6 @@ export default function AddEvent({ isVisible, onClose }) {
     //we want to use this function to send information to Supabse when Submit button is clicked
     function submitToSupabase(){  
         const validImageURL = isValidUrl(imageURL) ? imageURL : fallbackImageURL;
-
         let object = {
             id: btoa(title + time + new Date().toISOString()),
             title:title,
@@ -66,7 +65,6 @@ export default function AddEvent({ isVisible, onClose }) {
             }
         }
       };
-
   return (
     <Dialog overlayStyle= {styles.DialogueBox} isVisible={isVisible} onBackdropPress={onClose}>
       <Text style={styles.eventText}>Event Details</Text>
@@ -90,7 +88,6 @@ export default function AddEvent({ isVisible, onClose }) {
         color = {"none"}
         icon={{ name: "close", color: "black" }}
     />
-
 
     <FAB
         style = {styles.uploadButton}

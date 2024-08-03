@@ -1,16 +1,35 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import { Dialog } from "@rneui/themed";
+import { ScrollView } from "react-native-gesture-handler";
+import { FAB } from "react-native-elements";
 
-export default function Actions({ isVisible, onClose }) {
+export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
   const [descr, setDescr] = useState("");
   const [time, setTime] = useState("");
   const [location, setLocation] = useState("");
   const [imageURL, setImageURL] = useState("");
-  const [event, setEvent] = useState({});
+  const [actions, setActions] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const { data, error } = await supabase.from("allPrompt").select("*");
+      if (error) {
+        console.error("Error fetching data:", error);
+      } else {
+        setActions(data);
+        console.log(data)
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+}, []);
 
   return (
     <Dialog
@@ -18,16 +37,15 @@ export default function Actions({ isVisible, onClose }) {
       isVisible={isVisible}
       onBackdropPress={onClose}
     >
-      <Text style={styles.eventText}>Snap Initiatives</Text>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Snap A Friend</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Share A Memory</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Chat With ...</Text>
-      </TouchableOpacity>
+      <Text style={styles.eventText}>Snap Daily</Text>
+      <ScrollView horizontal = {true}>
+        {actions.map((action) => (
+          <View style ={styles.textAndButt}>
+            <Text style = {styles.context}> {action.prompts.context} </Text>
+            <FAB onPress={updateStreak} color = {action.prompts.color} title={action.prompts.prompt}> </FAB>
+          </View>
+        ))}
+      </ScrollView>
     </Dialog>
   );
 }
@@ -35,6 +53,8 @@ export default function Actions({ isVisible, onClose }) {
 const styles = StyleSheet.create({
   DialogueBox: {
     borderRadius: 20,
+    height: "80%",
+    width: "100%",
   },
   eventText: {
     textAlign: "center",
@@ -42,11 +62,29 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
   },
+  textAndButt:{
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 0, 
+    backgroundColor : 'orange',
+    width: 'auto',
+
+  },
+  context: {
+    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "semibold",
+    width: 200,
+    marginBottom: 20,
+    backgroundColor : 'cyan'
+  
+  },
   button: {
     backgroundColor: "#3CB2E2",
     borderRadius: 5,
     height: 50,
-    width: "80%",
+    width: 20,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
