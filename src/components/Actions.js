@@ -38,10 +38,10 @@ export default function Actions({ isVisible, onClose }) {
       onBackdropPress={onClose}
     >
       <Text style={styles.eventText}>Snap Daily</Text>
-      <ScrollView>
+      <ScrollView horizontal = {true}>
         {actions.map((action) => (
-          <View>
-            <Text> {action.prompts.context} </Text>
+          <View style ={styles.textAndButt}>
+            <Text style = {styles.context}> {action.prompts.context} </Text>
             <FAB color = {action.prompts.color} title={action.prompts.prompt}> </FAB>
           </View>
         ))}
@@ -61,6 +61,24 @@ const styles = StyleSheet.create({
     fontSize: 23,
     fontWeight: "bold",
     marginBottom: 20,
+  },
+  textAndButt:{
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 0, 
+    backgroundColor : 'orange'
+
+  },
+  context: {
+    textAlign: "center",
+    fontSize: 15,
+    fontWeight: "semibold",
+    width: '30%',
+    marginBottom: 20,
+    backgroundColor : 'cyan'
+    
+
   },
   button: {
     backgroundColor: "#3CB2E2",
