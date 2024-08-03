@@ -94,8 +94,9 @@ export default function ChatScreen({ navigation }) {
           // key={1}
         >
           <PinnedBotBitmoji
+          
             name={"MyWellness"}
-            imgSource={require("../../assets/sign-images/cancer.png")}
+            imgSource={require("../../assets/snapchat/ghostFlat.png")}
           ></PinnedBotBitmoji>
         </TouchableOpacity>
       </View>

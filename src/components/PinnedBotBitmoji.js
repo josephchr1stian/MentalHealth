@@ -3,18 +3,21 @@ import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { fontHeader } from "../../assets/themes/font";
 import { colors } from "../../assets/themes/colors";
 
-export default function PinnedBotBitmoji({name="defualtName", imgSource=require("../../assets/snapchat/personalBitmoji.png")}) {
+export default function PinnedBotBitmoji({name="defualtName", streak = 3 , imgSource=require("../../assets/snapchat/personalBitmoji.png")}) {
   return (
     <View style={styles.myBitmoji}>
       <Image
         style={styles.bitmojiImage}
         source={imgSource}
+
       />
       <View style={styles.bitmojiTextContainer}>
         <Text style={styles.bitmojiText}>{name}</Text>
+        <Text style = {styles.bitmojiText}> {streak}  🌱 </Text>
       </View>
     </View>
   );
+  
 }
 
 const styles = StyleSheet.create({
@@ -25,6 +28,7 @@ const styles = StyleSheet.create({
   bitmojiImage: {
     width: 60,
     height: 60,
+    borderRadius: 50,
   },
   bitmojiTextContainer: {
     backgroundColor: "white",

@@ -67,24 +67,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 0, 
-    backgroundColor : 'orange'
+    backgroundColor : 'orange',
+    width: 'auto',
 
   },
   context: {
     textAlign: "center",
     fontSize: 15,
     fontWeight: "semibold",
-    width: '30%',
+    width: 200,
     marginBottom: 20,
     backgroundColor : 'cyan'
-    
-
+  
   },
   button: {
     backgroundColor: "#3CB2E2",
     borderRadius: 5,
     height: 50,
-    width: "80%",
+    width: 20,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
