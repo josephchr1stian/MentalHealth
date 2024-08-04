@@ -52,7 +52,6 @@ export default function ChatScreen({ navigation }) {
       setStreakDone(true)
     } 
     // Call this when user clicks a button on the Snap daily
-
   }
 
   function getChatbots() {
@@ -142,7 +141,7 @@ export default function ChatScreen({ navigation }) {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.stories}
         >
-          <LoadingChats />
+          <LoadingChats navigation={navigation}/>
         </ScrollView>
       </View>
       <FAB //initiatives button
