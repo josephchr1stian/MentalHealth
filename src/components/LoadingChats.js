@@ -5,13 +5,36 @@ import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
-export default function LoadingChats() {
+export default function LoadingChats({ navigation }) {
   const [usersToAdd, setUsersToAdd] = useState([]);
   const { user } = useAuthentication();
   const [currentFriends, setCurrentFriends] = useState([]);
+  const [currentChats, setCurrentChats] = useState([]);
 
   useEffect(() => {
+    async function fetchCurrentChats() {
+        try {
+            const {data, error} = await supabase
+                .from("Chats")
+                .select("id, isChatBot, correspondent_id")
+                .where({user_id: user.id})
+            if (error) {
+                console.error("Error getting current chats:", error.message);
+                return;
+                }   
+                console.log({data})
+                if (data) {
+                    setCurrentChats(data)
+                }
+        } catch (error) {
+            console.error("Error getting current chats:", error.message);
+          }
+    }
+
+
+
     async function fetchUsers() {
       try {
         const { data, error } = await supabase
@@ -60,42 +83,27 @@ export default function LoadingChats() {
     if (user) {
       fetchCurrentFriends();
       fetchUsers();
+      fetchCurrentChats();
     }
   }, [user]);
 
-  async function addFriend(userToAdd) {
+  async function getChat(correspondent_id) {
+    for (chat in currentChats) {
+        if (correspondent_id === chat.correspondent_id) {
+            return chat.id
+        }
+    }
     try {
       const { data, error } = await supabase
-        .from("profiles")
-        .select("friend_ids")
-        .eq("id", user.id)
-        .single();
-
-      if (error) {
-        console.error("Error adding friend:", error.message);
-        return;
-      }
-
-      let friend_ids = data.friend_ids || [];
-
-      if (!friend_ids.includes(userToAdd.id)) {
-        friend_ids.push(userToAdd.id);
-      }
-
-      const { updateError } = await supabase
-        .from("profiles")
-        .update({ friend_ids })
-        .eq("id", user.id);
-
-      if (updateError) {
-        console.error("Error updating friend list:", updateError.message);
-        return;
-      }
-
-      alert(`Added ${userToAdd.name} as a friend!`);
-      setCurrentFriends(friend_ids);
+        .from("Chats")
+        .insert({ correspondent_id: correspondent_id, user_id: user.id })
+        .select("id")
+        if (error) {
+            console.log(error, "THis is line 74")
+        }
+      return data.id;
     } catch (error) {
-      console.error("Error adding friend:", error.message);
+      console.error("Error creating chat", error.message);
     }
   }
 
@@ -104,8 +112,18 @@ export default function LoadingChats() {
       {usersToAdd
         .filter((userToAdd) => !currentFriends.includes(userToAdd.id))
         .map((user, index) => (
-          <View key={index} >
-            <TouchableOpacity style={styles.userContainer} onPress={console.log("i was pressed")}>
+          <View key={index}>
+            <TouchableOpacity
+              style={styles.userContainer}
+              onPress={() => {
+                let chatId = getChat(user.id);
+                navigation.navigate("Conversation", {
+                  isChatbot: false,
+                  chatId: chatId,
+                });
+              }}
+              key={index}
+            >
               <Image style={styles.bitmojiImage} source={defaultPhoto} />
               <Text style={styles.bitmojiText}>{user.name}</Text>
               <Ionicons
@@ -156,9 +174,4 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "black",
   },
-  //   userCamera: {
-  //     position: "absolute",
-  //     right: 15,
-  //     top: 10,
-  //   },
 });
