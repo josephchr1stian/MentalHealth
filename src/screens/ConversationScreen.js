@@ -7,9 +7,9 @@ import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 const CHATBOT_USER_OBJ = {
   // user you are trying to send a message to
-  _id: 1,
-  name: "Areli",
-  avatar: "",
+  _id: 2,
+  name: "React Native Chatbot",
+  avatar: "https://loremflickr.com/140/140",
 };
 export const CHATBOTS = {
   BasicChatbot: {
@@ -40,22 +40,22 @@ export default function ConversationScreen({ route, navigation }) {
       return <Text>No Chatbot Found with name '{chatbotName}'</Text>;
     }
   };
-  async function fetchConversations() {
-    try {
-      const { data, error } = await supabase.from("conversations").select("*");
-      if (error) {
-        console.error("Error fetching conversations:", error.message);
-        return;
-      }
-      if (conversations) {
-        setConversations(data);
-        console.log("DATA", JSON.stringify(data, null, 4));
-        setMessages(data[0].messages);
-      }
-    } catch (error) {
-      console.error("Error fetching conversations:", error.message);
-    }
-  }
+  // async function fetchConversations() {
+  //   try {
+  //     const { data, error } = await supabase.from("conversations").select("*");
+  //     if (error) {
+  //       console.error("Error fetching conversations:", error.message);
+  //       return;
+  //     }
+  //     if (conversations) {
+  //       setConversations(data);
+  //       console.log("DATA", JSON.stringify(data, null, 4));
+  //       setMessages(data[0].messages);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching conversations:", error.message);
+  //   }
+  // }
   const handleInserts = (payload) => {
     console.log("Change received!", JSON.stringify(payload, null, 4));
     addNewMessage(payload.new.messages[0]);

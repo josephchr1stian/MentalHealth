@@ -109,8 +109,8 @@ export default function ChatScreen({ navigation }) {
 
         </TouchableOpacity>
       </View>
-
-      <View>
+          
+      <View> 
         {chats?.map((chat) => (
           <TouchableOpacity
             style={styles.userButton}
