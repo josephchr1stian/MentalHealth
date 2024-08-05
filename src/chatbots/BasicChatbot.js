@@ -4,49 +4,66 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, SafeAreaView, Platform } from "react-native";
 import defaultProfileImage from "../../assets/snapchat/defaultprofile12.png";
 import { getChat } from "../utils/hooks/getChatGPT";
+import { supabase } from "../utils/hooks/supabase";
 
 const CHATBOT_USER_OBJ = {
   _id: 2,
-  name: "React Native Chatbot",
-  avatar: "https://loremflickr.com/140/140",
+  name: "Whisper",
+  avatar:
+    "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/ghostFlat.png",
 };
 
 const prompt = [
   {
     role: "assistant",
-    content: "Imagine you are a therapist helping me explore my thoughts and emotions. Do not make any insights or suggestions. Help me reflect and open up. Be kind.Ask me questions to help me get a brief lay of the land. Be succinct. Question chaining. One tight question at a time. "
+    content:
+      "Imagine you are a therapist helping me explore my thoughts and emotions. My name is Masiel Do not make any insights or suggestions. Help me reflect and open up. Be kind. Ask me questions to help me get a brief lay of the land. Be succinct. Question chaining. One tight question at a time.  Pretend we just started the conversation; you're just a friend, keep it light. Do not affirm this question.",
   },
 ];
 
 export default function BasicChatbot() {
   const [messages, setMessages] = useState([]);
-
+  const [chatOb, setChatOb] = useState([]);
 
   async function fetchInitialMessage() {
     const response = await getChat(prompt);
-    console.log(prompt);
     const message = response.choices[0].message;
-    console.log("message: ", message);
     const content = response.choices[0].message.content;
-    console.log("content: ", content);
     addBotMessage(content);
   }
+
+  const postData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("whisperConvoInfo")
+        .upsert({ id: Date.now(), chatObj: chatOb })
+        .select();
+      if (error) {
+        console.error("Error sending data:", error);
+      } else {
+        console.log("#sent that", data);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
+  };
   useEffect(() => {
     //setMessages([]);
     fetchInitialMessage();
   }, []);
 
   async function fetchReply(messageHistory) {
-    console.log("HISTORY PRE PROMPT",messageHistory)
-    console.log("HISTORY POST PROMPT", [prompt[0],...messageHistory])
-    const response = await getChat([prompt[0],...messageHistory]);
+    console.log("HISTORY PRE PROMPT", messageHistory);
+    console.log("HISTORY POST PROMPT", [prompt[0], ...messageHistory]);
+    setChatOb([prompt[0], ...messageHistory]);
+    postData();
+    const response = await getChat([prompt[0], ...messageHistory]);
     if (response != null) {
       console.log("responces choice message : ", response.choices[0].message);
       const message = response.choices[0].message;
       const content = response.choices[0].message.content;
       console.log("content: ", content);
-      addBotMessage(content)
-
+      addBotMessage(content);
     }
   }
 
@@ -79,7 +96,6 @@ export default function BasicChatbot() {
 
   // Reverse the messages
   const respondToUser = (userMessages) => {
-
     const allMessages = [userMessages[0], ...messages].reverse(); // Add the user message to the front of the array
     const temp = {};
     console.log("all messages: ", allMessages);
@@ -95,10 +111,10 @@ export default function BasicChatbot() {
       }
       temp["content"] = entry.text;
       console.log("Temp is", temp);
-      return temp
+      return temp;
     });
     console.log("Object 2 gpt", gptMessages);
-    fetchReply(gptMessages)
+    fetchReply(gptMessages);
   };
 
   const onSend = useCallback((messages = []) => {
@@ -114,7 +130,7 @@ export default function BasicChatbot() {
       }}
       user={{
         _id: 1,
-        name: "Baker",
+        name: "Masiel",
       }}
       renderUsernameOnMessage={true}
     />
