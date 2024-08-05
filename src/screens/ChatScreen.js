@@ -92,11 +92,7 @@ export default function ChatScreen({ navigation }) {
         >
           <PinnedBotBitmoji name={"MyAI"}></PinnedBotBitmoji>
         </TouchableOpacity>
-<<<<<<< HEAD
-        <TouchableOpacity onPress={toggleDisclaimer}>
-=======
         <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
->>>>>>> origin/christian2
           <PinnedBotBitmoji
             name={"Whisper"}
             imgSource={require("../../assets/snapchat/ghostFlat.png")}
