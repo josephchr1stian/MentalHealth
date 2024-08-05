@@ -62,10 +62,10 @@ export default function UserStack({ route, navigation }) {
       barStyle={{ backgroundColor: "black" }}
       initialRouteName="Camera"
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Event"
         component={EventScreen}
-      />
+      /> */}
       <Tab.Screen
         name="Map"
         component={MapScreen}
