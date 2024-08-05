@@ -14,7 +14,6 @@ import Header from "../components/Header";
 import { CHATBOTS } from "./ConversationScreen";
 import LoadingChats from "../components/LoadingChats";
 
-import AddEvent from "../components/AddEvent";
 import Actions from "../components/Actions";
 import PinnedBotBitmoji from "../components/PinnedBotBitmoji";
 import Disclaimer from "../components/Disclaimer";
@@ -36,8 +35,7 @@ export default function ChatScreen({ navigation }) {
   }
 
   function toggleDisclaimer() {
-    console.log("Toggle Disclaimer");
-    setDisclaimerVisible(!disclaimerVisible);
+    setDisclaimerVisible(false);
   }
 
   function handleCardTouch(event) {
@@ -45,14 +43,13 @@ export default function ChatScreen({ navigation }) {
     setSelectedEvent(event);
   }
 
-
-  function updateStreak(){
-    if (streakDone === false) { // If we didnt do it today
-      setStreak(streak + 1) // add one
-      setStreakDone(true)
-    } 
+  function updateStreak() {
+    if (streakDone === false) {
+      // If we didnt do it today
+      setStreak(streak + 1); // add one
+      setStreakDone(true);
+    }
     // Call this when user clicks a button on the Snap daily
-
   }
 
   function getChatbots() {
@@ -93,24 +90,18 @@ export default function ChatScreen({ navigation }) {
           }}
           key={1}
         >
-          <PinnedBotBitmoji 
-            name={"MyAI"}>
-            
-          </PinnedBotBitmoji>
+          <PinnedBotBitmoji name={"MyAI"}></PinnedBotBitmoji>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={toggleDisclaimer}
-        >
+        <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
           <PinnedBotBitmoji
             name={"Whisper"}
             imgSource={require("../../assets/snapchat/ghostFlat.png")}
             streak={streak} // State Variable we can update
           ></PinnedBotBitmoji>
-
         </TouchableOpacity>
       </View>
-          
-      <View> 
+
+      <View>
         {chats?.map((chat) => (
           <TouchableOpacity
             style={styles.userButton}
@@ -158,10 +149,12 @@ export default function ChatScreen({ navigation }) {
         icon={{ name: "edit", color: "white" }}
         color="#3CB2E2"
       />
-      <Actions isVisible={actionsVisible} 
-      onClose={toggleActions} 
-       // Pass the function to actions, call it on press for any of the buttons
-      updateStreak = {updateStreak} />
+      <Actions
+        isVisible={actionsVisible}
+        onClose={toggleActions}
+        // Pass the function to actions, call it on press for any of the buttons
+        updateStreak={updateStreak}
+      />
       <Disclaimer isVisible={disclaimerVisible} onClose={toggleDisclaimer} />
     </View>
   );
