@@ -14,7 +14,6 @@ import Header from "../components/Header";
 import { CHATBOTS } from "./ConversationScreen";
 import LoadingChats from "../components/LoadingChats";
 
-import AddEvent from "../components/AddEvent";
 import Actions from "../components/Actions";
 import PinnedBotBitmoji from "../components/PinnedBotBitmoji";
 import Disclaimer from "../components/Disclaimer";
@@ -36,8 +35,7 @@ export default function ChatScreen({ navigation }) {
   }
 
   function toggleDisclaimer() {
-    console.log("Toggle Disclaimer");
-    setDisclaimerVisible(!disclaimerVisible);
+    setDisclaimerVisible(false);
   }
 
   function handleCardTouch(event) {
@@ -94,7 +92,11 @@ export default function ChatScreen({ navigation }) {
         >
           <PinnedBotBitmoji name={"MyAI"}></PinnedBotBitmoji>
         </TouchableOpacity>
+<<<<<<< HEAD
         <TouchableOpacity onPress={toggleDisclaimer}>
+=======
+        <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
+>>>>>>> origin/christian2
           <PinnedBotBitmoji
             name={"Whisper"}
             imgSource={require("../../assets/snapchat/ghostFlat.png")}

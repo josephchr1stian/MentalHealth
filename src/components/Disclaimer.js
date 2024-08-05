@@ -16,7 +16,8 @@ export default function Disclaimer({ isVisible, onClose }) {
         This AI is not a therapist. It is here to help you explore your thoughts
         and emotions and to aid in self-reflection.
       </Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity  onPress = {onClose} 
+      style={styles.button}>
         <Text style={styles.buttonText}>Something</Text>
       </TouchableOpacity>
     </Dialog>
