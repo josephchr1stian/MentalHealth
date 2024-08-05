@@ -1,10 +1,17 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import { Dialog } from "@rneui/themed";
 import { ScrollView } from "react-native-gesture-handler";
-import { FAB } from "react-native-elements";
+import { Button, FAB } from "react-native-elements";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
@@ -21,7 +28,7 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
         console.error("Error fetching data:", error);
       } else {
         setActions(data);
-        console.log(data)
+        console.log(data);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
@@ -29,47 +36,66 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
   };
   useEffect(() => {
     fetchData();
-}, []);
+  }, []);
 
   return (
     <Dialog
-      overlayStyle={styles.DialogueBox}
+      overlayStyle={styles.Frame}
       isVisible={isVisible}
       onBackdropPress={onClose}
     >
       <Text style={styles.eventText}>Snap Daily</Text>
-      <ScrollView horizontal = {true}>
-        {actions.map((action) => (
-          <View style ={styles.textAndButt}>
-            <Text style = {styles.context}> {action.prompts.context} </Text>
-            <FAB onPress={updateStreak} color = {action.prompts.color} title={action.prompts.prompt}> </FAB>
-          </View>
-        ))}
-      </ScrollView>
+      <FlatList
+        data={actions}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <SafeAreaView style={styles.Select}>
+            {/* <Text style={styles.context}>{item.prompts.context}</Text> */}
+            <Button
+              title={item.prompts.prompt}
+              buttonStyle={{
+                borderColor: '#00000',
+                borderBottomColor: '#ffff',
+                borderWidth : 1,
+                widith : '120%',
+                height : 80,
+              }}
+              type="outline"
+              
+              titleStyle={{fontWeight: 'bold', fontSize: 20, color: '#00000' }}
+              containerStyle={{
+                width: '110%',
+                marginHorizontal: 100,
+                marginVertical: 0,
+              }}
+            />
+          </SafeAreaView>
+        )}
+      />
     </Dialog>
   );
 }
 
 const styles = StyleSheet.create({
-  DialogueBox: {
+  Frame: {
     borderRadius: 20,
-    height: "80%",
-    width: "100%",
+    height: "45%",
+    width: "90%",
   },
   eventText: {
     textAlign: "center",
-    fontSize: 23,
+    fontSize: 30,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  textAndButt:{
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 0, 
-    backgroundColor : 'orange',
-    width: 'auto',
-
+  Select: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 10,
+    backgroundColor: "FFFFFF",
+    width: "auto",
+    height: 'auto',
   },
   context: {
     textAlign: "center",
@@ -77,8 +103,7 @@ const styles = StyleSheet.create({
     fontWeight: "semibold",
     width: 200,
     marginBottom: 20,
-    backgroundColor : 'cyan'
-  
+    backgroundColor: "cyan",
   },
   button: {
     backgroundColor: "#3CB2E2",
