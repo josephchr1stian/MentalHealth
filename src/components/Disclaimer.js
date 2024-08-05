@@ -17,7 +17,7 @@ export default function Disclaimer({ isVisible, onClose }) {
         and emotions and to aid in self-reflection.
       </Text>
       <TouchableOpacity onPress={onClose} style={styles.button}>
-        <Text style={styles.buttonText}>Something</Text>
+        <Text style={styles.buttonText}>Start Chat</Text>
       </TouchableOpacity>
     </Dialog>
   );
