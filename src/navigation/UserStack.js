@@ -9,6 +9,7 @@ import SearchScreen from "../screens/SearchScreen";
 import AstrologyScreen from "../screens/AstrologyScreen";
 import MemoryScreen from "../screens/MemoryScreen";
 import SendSnapScreen from "../screens/SendSnapScreen";
+import SendToScreen from "../screens/SendToScreen";
 
 
 const Stack = createStackNavigator();
@@ -56,7 +57,7 @@ export default function App() {
         />
         <Stack.Screen
           name="SnapScreen"
-          component={SendSnapScreen}
+          component={SendToScreen}
           options={{ headerShown: true}}
 
         />
