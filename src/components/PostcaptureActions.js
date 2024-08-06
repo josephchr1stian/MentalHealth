@@ -27,6 +27,7 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             color="white"
           />
         </TouchableOpacity>
+        {/* <Text> gonna kill myself</Text> */}
         <TouchableOpacity>
           <Ionicons
             style={styles.pencilIcon}
@@ -75,6 +76,9 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             color="white"
           />
         </TouchableOpacity>
+        <View>
+          
+        </View>
       </View>
     </>
   );

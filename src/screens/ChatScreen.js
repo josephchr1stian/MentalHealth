@@ -94,7 +94,7 @@ export default function ChatScreen({ navigation }) {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
           <PinnedBotBitmoji
-            name={"Whisper"}
+            name={"myWellness"}
             imgSource={require("../../assets/snapchat/ghostFlat.png")}
             streak={streak} // State Variable we can update
           ></PinnedBotBitmoji>

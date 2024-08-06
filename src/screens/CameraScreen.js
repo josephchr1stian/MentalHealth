@@ -1,4 +1,13 @@
-import { StyleSheet, Text, View, Image, SafeAreaView, TouchableOpacity, Modal, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  SafeAreaView,
+  TouchableOpacity,
+  Modal,
+  Pressable,
+} from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
@@ -10,26 +19,35 @@ import CameraActions from "../components/CameraActions";
 import CameraOptions from "../components/CameraOptions";
 import PostcaptureOptions from "../components/PostcaptureActions";
 // Add supabase to store:
-import {supabase} from '../utils/hooks/supabase';
+import { supabase } from "../utils/hooks/supabase";
 import CameraGalleryMenu from "../components/CameraGalleryMenu";
-import { Button } from "react-native-elements";
+import { Button, FAB } from "react-native-elements";
+import { ListItem } from "@rneui/themed";
+import { Overlay } from "react-native-elements";
+import { Icon } from "@rneui/themed";
 
 export default function CameraScreen({ navigation, focused }) {
   const tabBarHeight = useBottomTabBarHeight();
   const insets = useSafeAreaInsets();
   const cameraRef = useRef(null);
-  const [facing, setFacing] = useState("back"); 
+  const [facing, setFacing] = useState("back");
   const [permission, requestPermission] = useCameraPermissions();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] =
+    useState(true);
   const [photo, setPhoto] = useState(null);
   //const [image, setImage] = useState(null);
   const [showGalleryMenu, setShowGalleryMenu] = useState(false);
 
+  const [sending, setSending] = useState(false);
+
   useEffect(() => {
     (async () => {
       // Request media library permissions
-      const { status: mediaLibraryStatus } = await MediaLibrary.requestPermissionsAsync();
-      setHasMediaLibraryPermission(mediaLibraryStatus === 'granted');
+      const { status: mediaLibraryStatus } =
+        await MediaLibrary.requestPermissionsAsync();
+      setHasMediaLibraryPermission(mediaLibraryStatus === "granted");
+      requestPermission(true);
     })();
   }, []);
 
@@ -42,10 +60,13 @@ export default function CameraScreen({ navigation, focused }) {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>We need your permission to show the camera.</Text>
-        <TouchableOpacity onPress={requestPermission} style={styles.button}>
-          <Text style={styles.text}>Grant Permission</Text>
-        </TouchableOpacity>
+        <Text style={styles.message}>
+          We need your permission to show the camera.
+        </Text>
+        <TouchableOpacity
+          onPress={requestPermission}
+          style={styles.button}
+        ></TouchableOpacity>
       </View>
     );
   }
@@ -54,13 +75,14 @@ export default function CameraScreen({ navigation, focused }) {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
 
-  function galleryMenu(){
+  function galleryMenu() {
     // console.log("HELLO, is the gallery menu being shown?\n", !showGalleryMenu)
     // return <CameraGalleryMenu />
     setShowGalleryMenu(!showGalleryMenu);
   }
   async function checkGallery() {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
       alert("Permission to access camera roll is required!");
       return;
@@ -72,52 +94,32 @@ export default function CameraScreen({ navigation, focused }) {
     console.log(pickerResult.assets[0].uri);
     if (!pickerResult.canceled) {
       //setImage(pickerResult.uri);
-      setPhoto(pickerResult.assets[0]) //By Ryan
+      setPhoto(pickerResult.assets[0]); //By Ryan
     }
   }
 
   async function takePhoto() {
     if (cameraRef.current) {
+      // navigation.navigate("SnapScreen")
 
-
+      console.log("Taking Phot1o");
       const options = { quality: 1, base64: true, exif: false };
-      const newPhoto = await cameraRef.current.takePictureAsync(options);
+      const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
       setPhoto(newPhoto);
+      // console.log("This is the photo", newPhoto);
       // This part is to insert URI to "gallery" table
-      console.log(" Before Insert to table!")
-      const { error } = await supabase.from('gallery').insert({ photo: newPhoto.uri });    
-      console.log("After Insert to table!")
+      console.log(" Before Insert to table!");
+      const { error } = await supabase
+        .from("gallery")
+        .insert({ photo: newPhoto.uri });
+      console.log("After Insert to table!");
       if (error) {
-        console.error('Error inserting photo:', error.message);
+        console.error("Error inserting photo:", error.message);
       }
       // This part is to store images in a folder bucket named "pictureStorage"
       //uploadImage(newPhoto.uri);
-      
     }
   }
-
-  // async function uploadImage (photoUri) {
-  //   // console.log("1")
-  //   const response = await fetch(photoUri);
-  
-  //   const blob = await response.blob();
-
-  //   const arrayBuffer = await new Response(blob).arrayBuffer();
-  //   // console.log("2")
-  //   const fileName = `public/${Date.now()}.jpg`;
-  //   const { error1} = await supabase
-  //     .storage
-  //     .from('pictureStorage')
-  //     .upload(fileName, arrayBuffer, { contentType: 'image/jpeg', upsert: false });
-  //   // console.log("3")
-  //   if (error1) {
-  //     console.error('Error uploading image:', error1.message);
-  //   } else {
-  //     console.log('Image successfully uploaded:', data);
-  //   }
-
-
-  // }
 
   function savePhoto() {
     MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -125,12 +127,15 @@ export default function CameraScreen({ navigation, focused }) {
     });
   }
 
+  // There is a photo
   if (photo) {
     const sharePic = () => {
       shareAsync(photo.uri).then(() => {
         setPhoto(null);
       });
     };
+
+    // If there is a photo taken we see this
 
     return (
       <View
@@ -139,6 +144,7 @@ export default function CameraScreen({ navigation, focused }) {
           {
             marginBottom: tabBarHeight,
             paddingTop: insets.top,
+            // backgroundColor: 'orange',
             paddingBottom: insets.bottom,
           },
         ]}
@@ -150,67 +156,89 @@ export default function CameraScreen({ navigation, focused }) {
           source={{ uri: photo.uri }}
         />
         {hasMediaLibraryPermission && (
-          <PostcaptureOptions deletePhoto={() => setPhoto(null)} savePhoto={savePhoto} />
+          <PostcaptureOptions
+            deletePhoto={() => setPhoto(null)}
+            savePhoto={savePhoto}
+          />
         )}
+        <View style={styles.bottomRow}>
+          <TouchableOpacity
+            style={[styles.save, { backgroundColor: "#6e6e6e" }]}
+            onPress={() => { }}
+          >
+            <Text style={styles.buttonText}>Stories</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.sendTo, { backgroundColor: "#00000" }]}
+            onPress={() => {
+              navigation.navigate("SnapScreen");
+            }}
+          >
+            <Text style={styles.buttonText}>Send To</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 
-  if(showGalleryMenu){
+  if (showGalleryMenu) {
     return (
       <View
-      style={[
-        styles.container,
-        {
-          marginBottom: tabBarHeight,
-          paddingTop: insets.top,
-          paddingBottom: insets.bottom,
-        },
-      ]}
-    >
-      <CameraView style={styles.camera} facing={facing} ref={cameraRef} /> 
-      <CameraOptions flipCamera={flipCamera} />
-      <CameraActions galleryMenu={galleryMenu} checkGallery={checkGallery} takePhoto={takePhoto} />
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showGalleryMenu}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Pressable
-              onPress={checkGallery}
-              style={({ pressed }) => [
-                  { backgroundColor: pressed ? 'blue' : 'transparent' },
-                  styles.buttonStyle
-              ]}
-              // style={styles.buttonStyle}
-            >
-              <Text style={styles.buttonText}>Phone Gallery</Text>
-            </Pressable>
-            <Pressable
-              onPress={() =>{
-                navigation.navigate('MemoryScreen')
-              }
-              }
-              style={styles.buttonStyle}
-            >
-              <Text style={styles.buttonText}>ChatSnap Memories</Text>
-            </Pressable>
-            <Pressable
-              onPress={galleryMenu}
-              style={styles.closeButtonStyle}
-            >
-              <Text style={styles.buttonText}>Close</Text>
-            </Pressable>
+        style={[
+          styles.container,
+          {
+            marginBottom: tabBarHeight,
+            paddingTop: insets.top,
+            backgroundColor: "#fffff",
+            paddingBottom: insets.bottom,
+          },
+        ]}
+      >
+        <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
+        <CameraOptions flipCamera={flipCamera} />
+        <CameraActions
+          galleryMenu={galleryMenu}
+          checkGallery={checkGallery}
+          takePhoto={takePhoto}
+        />
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={showGalleryMenu}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Pressable
+                onPress={checkGallery}
+                style={({ pressed }) => [
+                  { backgroundColor: pressed ? "blue" : "transparent" },
+                  styles.buttonStyle,
+                ]}
+                // style={styles.buttonStyle}
+              >
+                <Text style={styles.buttonText}>Phone Gallery</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("MemoryScreen");
+                }}
+                style={styles.buttonStyle}
+              >
+                <Text style={styles.buttonText}>ChatSnap Memories</Text>
+              </Pressable>
+              <Pressable onPress={galleryMenu} style={styles.closeButtonStyle}>
+                <Text style={styles.buttonText}>Close</Text>
+              </Pressable>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-    )
+        </Modal>
+      </View>
+    );
   }
 
   return (
@@ -221,12 +249,19 @@ export default function CameraScreen({ navigation, focused }) {
           marginBottom: tabBarHeight,
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
+          backgroundColor: "transparent", // COLOR OF the camera
         },
       ]}
     >
-      <CameraView style={styles.camera} facing={facing} ref={cameraRef} /> 
+      <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
+
       <CameraOptions flipCamera={flipCamera} />
-      <CameraActions galleryMenu={galleryMenu} checkGallery={checkGallery} takePhoto={takePhoto} />
+
+      <CameraActions
+        galleryMenu={galleryMenu}
+        checkGallery={checkGallery}
+        takePhoto={takePhoto}
+      />
     </View>
   );
 }
@@ -234,7 +269,44 @@ export default function CameraScreen({ navigation, focused }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#ffffff",
+  },
+  bottomRow: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: "8%",
+    flexDirection: "row",
+    backgroundColor: "#333333",
+    justifyContent: "space-around", // Space buttons evenly
+    paddingHorizontal: 20,
+    zIndex: 10000,
+  },
+  save: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderRadius: 60,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sendTo: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderRadius: 60,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonStyle: {
+    backgroundColor: "#00aeef",
+    borderColor: "red",
+    borderWidth: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
   },
   camera: {
     overflow: "hidden",
@@ -242,6 +314,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 16,
+  },
+  dropdown: {
+    position: "absolute",
+    bottom: 10,
+    backgroundColor: "transparent",
+    borderRadius: 20,
+    width: "20%",
   },
   preview: {
     flex: 1,
@@ -255,11 +334,11 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     marginTop: 400,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 15,
-    alignItems: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -269,29 +348,28 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     margin: 5,
     paddingVertical: 20,
     paddingHorizontal: 32,
     borderRadius: 20,
     elevation: 3,
-    backgroundColor: '#2196F3',
+    backgroundColor: "#2196F3",
   },
   closeButtonStyle: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     margin: 5,
     paddingVertical: 20,
     paddingHorizontal: 32,
     borderRadius: 20,
     elevation: 3,
-    backgroundColor: 'red',
   },
   buttonText: {
     fontSize: 20,
     lineHeight: 21,
     letterSpacing: 0.5,
-    color: 'white',
+    color: "white",
   },
 });
