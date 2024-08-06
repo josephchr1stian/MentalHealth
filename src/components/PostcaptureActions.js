@@ -29,10 +29,11 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
       console.error("Unexpected error:", error);
     }
   };
-  function handlePress() {
-    setVisible(!visible);
-  }
 
+  function toggleVis() {
+    setVisible(!visible);
+    console.log("Toggle");
+  }
   useEffect(() => {
     fetchData();
   }, []);
@@ -74,7 +75,11 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             color="white"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handlePress}>
+        <TouchableOpacity
+          onPress={() => {
+            toggleVis();
+          }}
+        >
           <Ionicons
             style={styles.musicIcon}
             name="heart"
@@ -114,20 +119,15 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             color="white"
           />
         </TouchableOpacity>
-      </View>
-      <Modal
-        transparent = {true}
-        visible={visible}
-        onRequestClose={() => setVisible(false)}
-        animationType="slide"
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.action}>{action}</Text>
-            <Text style={styles.suggestion}>{suggestion}</Text>
+        {visible && (
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.action}>{action}</Text>
+              <Text style={styles.suggestion}>{suggestion}</Text>
+            </View>
           </View>
-        </View>
-      </Modal>
+        )}
+      </View>
     </>
   );
 }
@@ -165,20 +165,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   modalContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 600,
-    width:'100%',
+    width: 400,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.0)', // Slightly darkened background
+    left: -363,
+    backgroundColor: "rgba(0, 0, 0, 0.0)", // Slightly darkened background
   },
   modalContent: {
-    backgroundColor: 'rgba(52, 52, 52, 0.9)',
+    backgroundColor: "rgba(52, 52, 52, 0.9)",
     borderRadius: 10,
     padding: 20,
-    width: '80%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   action: {
     color: "white",
