@@ -5,8 +5,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button } from "react-native-elements";
-import { useState, useEffect } from "react";
-import { Pressable, FlatList, Item } from "react-native";
+import { useState, useEffect} from "react";
+import { Pressable, FlatList, Item, ScrollView } from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import { SmallChatFill } from "../../assets/snapchat/NavigationIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -29,25 +29,6 @@ export default function SendToScreen() {
   const [recents, setRecents] = useState([]);
 
   useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const { data, error } = await supabase
-          .from("usersToAdd")
-          .select("*")
-          .limit(8);
-        if (error) {
-          console.error("Error fetching users:", error.message);
-          return;
-        }
-        if (data) {
-          setUsersToAdd(data);
-          setRecents(data.slice(-6));
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error.message);
-      }
-    }
-
     async function fetchOtherUsers() {
       try {
         const { data, error } = await supabase
@@ -67,6 +48,7 @@ export default function SendToScreen() {
               username: user.username,
             }))
           );
+          setRecents(data.slice(-10));
           console.log(data);
         }
       } catch (error) {
@@ -138,6 +120,10 @@ export default function SendToScreen() {
         source={{uri: usersToAdd[0].profile_picture}}
         style={{ width: 400, height: 400, borderRadius: 400 / 2 }}
       /> */}
+      <ScrollView
+          horizontal={false}
+          showsHorizontalScrollIndicator={false}
+        >
         <Text style={{ paddingLeft: 10, fontWeight: "bold" }}>Stories</Text>
 
         <View>
@@ -150,13 +136,14 @@ export default function SendToScreen() {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.userStoriesContainer}>
-            <Text> Snap Map</Text>
-            <Ionicons
+          <Ionicons
               style={styles.userCamera}
               name="location"
               size={24}
               color="lightgrey"
             />
+            <Text> Snap Map</Text>
+            
           </TouchableOpacity>
         </View>
 
@@ -178,9 +165,6 @@ export default function SendToScreen() {
           <Text>No "usersToAdd" table</Text>
         )}
 
-        {/* <Text style={{ paddingLeft: 10, fontWeight: "bold" }}>
-          Search results
-        </Text> */}
         {recents.length > 0 ? (
           <>
             <View
@@ -202,7 +186,7 @@ export default function SendToScreen() {
           </>
         ) : null}
 
-        <View>
+        <View style={styles.recentsContainer}>
           {usersToAdd
             //.filter((userToAdd) => !currentFriends.includes(userToAdd.id))
             .map((user, index) => (
@@ -225,8 +209,10 @@ export default function SendToScreen() {
               </View>
             ))}
         </View>
+        </ScrollView>
       </SafeAreaView>
     </View>
+    
   );
 }
 
@@ -249,7 +235,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
-    marginBottom: 15,
   },
   bitmojiImage: {
     width: 40,
@@ -261,5 +246,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     //fontWeight: "700",
     flex: 1, // To take up the remaining space
+  },
+  recentsContainer: {
+    backgroundColor: "#fff",
+    marginLeft: 10,
+    marginRight: 10,
   },
 });
