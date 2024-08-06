@@ -2,8 +2,13 @@ import React from "react";
 import { Modal, View, TouchableOpacity, StyleSheet } from "react-native";
 import { ListItem } from "@rneui/themed";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const SendBottomSheet = ({ showMenu, setShowMenu }) => {
+  function goToChat() {
+    navigation.navigate("Chat");
+  }
+  const navigation = useNavigation();
   const list = [
     {
       title: "",
@@ -34,7 +39,7 @@ const SendBottomSheet = ({ showMenu, setShowMenu }) => {
             >
               <ListItem.Content style={styles.listItemContent}>
                 <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
-                <TouchableOpacity onPress={() => console.log("AHHHHHHHH")}>
+                <TouchableOpacity onPress={() => goToChat()}>
                   <Ionicons
                     style={styles.sendIcon}
                     name="send"
