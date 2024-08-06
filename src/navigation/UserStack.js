@@ -8,6 +8,7 @@ import DiscoverCard from "../components/DiscoverCard";
 import SearchScreen from "../screens/SearchScreen";
 import AstrologyScreen from "../screens/AstrologyScreen";
 import MemoryScreen from "../screens/MemoryScreen";
+import SendToScreen from "../screens/SendToScreen";
 
 const Stack = createStackNavigator();
 
@@ -38,7 +39,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Search"
-          component={SearchScreen}
+          component={SendToScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
