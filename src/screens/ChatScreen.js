@@ -133,7 +133,6 @@ export default function ChatScreen({ navigation }) {
         <ScrollView
           horizontal={false}
           showsHorizontalScrollIndicator={false}
-          //contentContainerStyle={styles.stories}
         >
           <LoadingChats navigation={navigation} />
         </ScrollView>
