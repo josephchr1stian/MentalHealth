@@ -40,7 +40,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Search"
-          component={SendToScreen}
+          component={SearchScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
