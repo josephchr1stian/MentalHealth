@@ -36,11 +36,10 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
     }
   };
 
-  function handleThat(update, close){
-    navigation.navigate('Camera');
+  function handleThat(update, close) {
+    navigation.navigate("Camera");
     update();
     close();
-
   }
   useEffect(() => {
     fetchData();
@@ -70,7 +69,12 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
                 height: 80,
               }}
               type="outline"
-              titleStyle={{ fontWeight: "normal", textAlign:'left', fontSize: 18, color: "#000ff" }}
+              titleStyle={{
+                fontWeight: "normal",
+                textAlign: "left",
+                fontSize: 18,
+                color: "#000ff",
+              }}
               containerStyle={{
                 width: "110%",
                 marginHorizontal: 100,
