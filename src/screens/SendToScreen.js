@@ -14,6 +14,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 import SendBottomSheet from "../components/SendBottomSheet";
 
+
 //screen
 import ChatScreen from "./ChatScreen";
 import LoadingChats from "../components/LoadingChats";
@@ -28,6 +29,7 @@ export default function SendToScreen() {
   const [recents, setRecents] = useState([]);
   const [clickedUsers, setClickedUsers] = useState({}); // State to track clicked users
   const [showBottomSheet, setShowBottomSheet] = useState(false);
+
 
   useEffect(() => {
     async function fetchUsers() {
