@@ -91,9 +91,9 @@ export default function SendToScreen() {
         <Text>{item.name}</Text>
         <Ionicons
           style={styles.circleIcon}
-          name={clickedUsers[item.id] ? "ellipse" : "ellipse-outline"}
+          name={clickedUsers[item.id] ? "checkmark-circle" : "ellipse-outline"}
           size={24}
-          color="lightgrey"
+          color={clickedUsers[item.id] ? "#3CB2E2" : "lightgrey"}
         />
       </TouchableOpacity>
     </View>
@@ -235,9 +235,9 @@ export default function SendToScreen() {
                     <Text style={styles.bitmojiText}>{user.name}</Text>
                     <Ionicons
                       style={styles.circleIcon}
-                      name={clickedUsers[user.id] ? "ellipse" : "ellipse-outline"}
+                      name={clickedUsers[user.id] ? "checkmark-circle" : "ellipse-outline"}
                       size={24}
-                      color="lightgrey"
+                      color={clickedUsers[user.id] ? "#3CB2E2" : "lightgrey"}
                     />
                   </TouchableOpacity>
                 </View>
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   },
   bitmojiText: {
     fontSize: 15,
-    flex: 1, // To take up the remaining space
+    flex: 1,
   },
   recentsContainer: {
     backgroundColor: "#fff",
