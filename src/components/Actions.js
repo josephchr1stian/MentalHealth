@@ -12,6 +12,7 @@ import { Dialog } from "@rneui/themed";
 import { ScrollView } from "react-native-gesture-handler";
 import { Button, FAB } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
@@ -20,7 +21,7 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
   const [location, setLocation] = useState("");
   const [imageURL, setImageURL] = useState("");
   const [actions, setActions] = useState([]);
-
+  const navigation = useNavigation();
   const fetchData = async () => {
     try {
       const { data, error } = await supabase.from("allPrompt").select("*");
@@ -34,6 +35,13 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
       console.error("Unexpected error:", error);
     }
   };
+
+  function handleThat(update, close){
+    navigation.navigate('Camera');
+    update();
+    close();
+
+  }
   useEffect(() => {
     fetchData();
   }, []);
@@ -52,7 +60,7 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
           <SafeAreaView style={styles.Select}>
             {/* <Text style={styles.context}>{item.prompts.context}</Text> */}
             <Button
-              onPress={updateStreak}
+              onPress={() => handleThat(updateStreak, onClose)}
               title={item.prompts.prompt}
               buttonStyle={{
                 borderColor: "#d9d9d9",
