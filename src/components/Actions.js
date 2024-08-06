@@ -52,19 +52,19 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
           <SafeAreaView style={styles.Select}>
             {/* <Text style={styles.context}>{item.prompts.context}</Text> */}
             <Button
+              onPress={updateStreak}
               title={item.prompts.prompt}
               buttonStyle={{
-                borderColor: '#00000',
-                borderBottomColor: '#ffff',
-                borderWidth : 1,
-                widith : '120%',
-                height : 80,
+                borderColor: "#d9d9d9",
+                borderBottomColor: "#ffff",
+                borderWidth: 1,
+                widith: "120%",
+                height: 80,
               }}
               type="outline"
-              
-              titleStyle={{fontWeight: 'bold', fontSize: 20, color: '#00000' }}
+              titleStyle={{ fontWeight: "normal", textAlign:'left', fontSize: 18, color: "#000ff" }}
               containerStyle={{
-                width: '110%',
+                width: "110%",
                 marginHorizontal: 100,
                 marginVertical: 0,
               }}
@@ -91,11 +91,11 @@ const styles = StyleSheet.create({
   Select: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "left",
     marginHorizontal: 10,
     backgroundColor: "FFFFFF",
     width: "auto",
-    height: 'auto',
+    height: "auto",
   },
   context: {
     textAlign: "center",

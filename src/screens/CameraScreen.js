@@ -14,22 +14,26 @@ import {supabase} from '../utils/hooks/supabase';
 import CameraGalleryMenu from "../components/CameraGalleryMenu";
 import { Button } from "react-native-elements";
 
+
 export default function CameraScreen({ navigation, focused }) {
   const tabBarHeight = useBottomTabBarHeight();
   const insets = useSafeAreaInsets();
   const cameraRef = useRef(null);
   const [facing, setFacing] = useState("back"); 
   const [permission, requestPermission] = useCameraPermissions();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(null);
+  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(true);
   const [photo, setPhoto] = useState(null);
   //const [image, setImage] = useState(null);
   const [showGalleryMenu, setShowGalleryMenu] = useState(false);
+
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     (async () => {
       // Request media library permissions
       const { status: mediaLibraryStatus } = await MediaLibrary.requestPermissionsAsync();
       setHasMediaLibraryPermission(mediaLibraryStatus === 'granted');
+      requestPermission(true)
     })();
   }, []);
 
@@ -44,7 +48,7 @@ export default function CameraScreen({ navigation, focused }) {
       <View style={styles.container}>
         <Text style={styles.message}>We need your permission to show the camera.</Text>
         <TouchableOpacity onPress={requestPermission} style={styles.button}>
-          <Text style={styles.text}>Grant Permission</Text>
+          <Text color = "red" style={styles.text}>Grant 400 Permission</Text>
         </TouchableOpacity>
       </View>
     );
@@ -79,10 +83,13 @@ export default function CameraScreen({ navigation, focused }) {
   async function takePhoto() {
     if (cameraRef.current) {
 
+      // navigation.navigate("SnapScreen")
 
+      console.log("Taking Phot1o")
       const options = { quality: 1, base64: true, exif: false };
-      const newPhoto = await cameraRef.current.takePictureAsync(options);
+      const newPhoto = {uri:"https://i.postimg.cc/VvFzmBwn/SMILE.png"}
       setPhoto(newPhoto);
+      // console.log("This is the photo", newPhoto);
       // This part is to insert URI to "gallery" table
       console.log(" Before Insert to table!")
       const { error } = await supabase.from('gallery').insert({ photo: newPhoto.uri });    
@@ -96,28 +103,7 @@ export default function CameraScreen({ navigation, focused }) {
     }
   }
 
-  // async function uploadImage (photoUri) {
-  //   // console.log("1")
-  //   const response = await fetch(photoUri);
-  
-  //   const blob = await response.blob();
 
-  //   const arrayBuffer = await new Response(blob).arrayBuffer();
-  //   // console.log("2")
-  //   const fileName = `public/${Date.now()}.jpg`;
-  //   const { error1} = await supabase
-  //     .storage
-  //     .from('pictureStorage')
-  //     .upload(fileName, arrayBuffer, { contentType: 'image/jpeg', upsert: false });
-  //   // console.log("3")
-  //   if (error1) {
-  //     console.error('Error uploading image:', error1.message);
-  //   } else {
-  //     console.log('Image successfully uploaded:', data);
-  //   }
-
-
-  // }
 
   function savePhoto() {
     MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -139,6 +125,7 @@ export default function CameraScreen({ navigation, focused }) {
           {
             marginBottom: tabBarHeight,
             paddingTop: insets.top,
+            backgroundColor : 'red',
             paddingBottom: insets.bottom,
           },
         ]}
@@ -164,6 +151,7 @@ export default function CameraScreen({ navigation, focused }) {
         {
           marginBottom: tabBarHeight,
           paddingTop: insets.top,
+          backgroundColor: 'blue',
           paddingBottom: insets.bottom,
         },
       ]}
@@ -221,11 +209,13 @@ export default function CameraScreen({ navigation, focused }) {
           marginBottom: tabBarHeight,
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
+          backgroundColor: 'yellow'
         },
       ]}
     >
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} /> 
       <CameraOptions flipCamera={flipCamera} />
+      
       <CameraActions galleryMenu={galleryMenu} checkGallery={checkGallery} takePhoto={takePhoto} />
     </View>
   );
@@ -234,7 +224,7 @@ export default function CameraScreen({ navigation, focused }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "transparent",
   },
   camera: {
     overflow: "hidden",
