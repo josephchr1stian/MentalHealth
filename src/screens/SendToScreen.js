@@ -13,6 +13,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
+import SendBottomSheet from "../components/SendBottomSheet";
 
 //screen
 import ChatScreen from "./ChatScreen";
@@ -244,6 +245,7 @@ export default function SendToScreen() {
               ))}
           </View>
         </ScrollView>
+        <SendBottomSheet />
       </SafeAreaView>
     </View>
   );
