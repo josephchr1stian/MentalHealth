@@ -34,7 +34,6 @@ export default function LoadingChats({ navigation }) {
     }
 
 
-
     async function fetchUsers() {
       try {
         const { data, error } = await supabase
