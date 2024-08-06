@@ -11,6 +11,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   const [visible, setVisible] = useState(false);
   const [action, setAction] = useState("Lead with Compassion");
   const [suggestion, setSuggestion] = useState("It never fails <3");
+  const [pressedIcon, setPressedIcon] = useState(null);
 
   const fetchData = async () => {
     console.log("oooo im gonna fetch");
@@ -30,6 +31,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
       console.error("Unexpected error:", error);
     }
   };
+
   function switchFlash() {
     if (flashState == "flash-off-outline") {
       setFlashState("flash-outline");
@@ -37,14 +39,31 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
       setFlashState("flash-off-outline");
     }
   }
-  function handlePress() {
-    setVisible(!visible);
-  }
+  // function handlePress() {
+  //   setVisible(!visible);
+  // }
 
   function getRandomAction(arr) {
     const randomIndex = Math.floor(Math.random() * arr.length);
     return arr[randomIndex];
   }
+
+  const handlePress = (icon) => {
+    console.log(icon);
+    setPressedIcon(icon === pressedIcon ? null : icon);
+    if (icon === "heart") {
+      console.log("heart clicked");
+      setVisible(!visible);
+      // setPressedIcon(!pressedIcon)
+    }
+  };
+
+  function closeBoth() {
+    setVisible(false);
+    handlePress('heart');
+
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -54,65 +73,68 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
       <Dialog
         overlayStyle={styles.suggest}
         isVisible={visible}
-        onBackdropPress={() => setVisible(!visible)}
+        onBackdropPress={() => closeBoth()}
         backdropStyle={styles.backdrop}
       >
-        <Text style={styles.action}> {action}</Text>
-        <Text style={styles.suggestion}> {suggestion} </Text>
+        <Text style={styles.action}>{action}</Text>
+        <Text style={styles.suggestion}>{suggestion}</Text>
       </Dialog>
 
-      <View>
-        <TouchableOpacity onPress={flipCamera}>
-          <Ionicons
-            style={styles.flipIcon}
-            name="repeat"
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={switchFlash}>
-          <Ionicons
-            style={styles.Icon}
-            name={flashState}
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Ionicons
-            style={styles.Icon}
-            name="videocam"
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handlePress}>
-          <Ionicons
-            style={styles.Icon}
-            name="heart"
-            size={30}
-            color="#68D89B"
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Ionicons
-            style={styles.Icon}
-            name="musical-notes-outline"
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Ionicons
-            style={styles.Icon}
-            name="moon-outline"
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
+      <View style={styles.iconContainer}>
+        {[
+          {
+            name: "repeat",
+            color: "white",
+            onPress: flipCamera,
+            caption: "Flip Camera",
+          },
+          {
+            name: flashState,
+            color: "white",
+            onPress: switchFlash,
+            caption: "Switch Flash",
+          },
+          {
+            name: "videocam",
+            color: "white",
+            onPress: () => {},
+            caption: "Record Video",
+          },
+          {
+            name: "heart",
+            color: "#68D89B",
+            onPress: { handlePress },
+            caption: "myWellness",
+          },
+          {
+            name: "musical-notes-outline",
+            color: "white",
+            onPress: () => {},
+            caption: "Music",
+          },
+          {
+            name: "moon-outline",
+            color: "white",
+            onPress: () => {},
+            caption: "Night Mode",
+          },
+        ].map((icon, index) => (
+          <TouchableOpacity key={index} onPress={() => handlePress(icon.name)}>
+            <View style={styles.iconRow}>
+              {pressedIcon === icon.name && (
+                <View style = {styles.captionWrapper}>
+                  <Text style={styles.caption}>{icon.caption}</Text>
+                </View>
+              )}
+              <Ionicons
+                style={styles.icon}
+                name={icon.name}
+                size={30}
+                color={icon.color}
+              />
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -123,24 +145,37 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 12,
     paddingTop: 20,
-    height: 340,
+    height: 320,
     width: 45,
     padding: 5,
     borderRadius: 20,
     backgroundColor: "rgba(52, 52, 52, 0.6)",
   },
-  fab: {
-    width: 40, // Adjust the width of the FAB
-    height: 60, // Adjust the height of the FAB
-    justifyContent: "center", // Center the content vertically
-    alignItems: "center", // Center the content horizontally
-  },
   iconContainer: {
+    top: -20,
     justifyContent: "center", // Center the icon vertically
     alignItems: "center", // Center the icon horizontally
   },
+  iconRow: {
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  caption: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "16",
+  },
+    captionWrapper: {
+    position: 'absolute', // Position text absolutely
+    left: -100, // Adjust this value to control the text position
+    backgroundColor: 'transparent', // Background color
+    padding: 5, // Padding around text
+    zIndex: 1, // Ensure text is on top
+  },
+
   suggest: {
-    position : 'absoloute',
+    position: "absoloute",
     top: 200,
     backgroundColor: "rgba(52, 52, 52, 0.0)",
     width: "90%",
@@ -162,25 +197,5 @@ const styles = StyleSheet.create({
     top: 5,
     left: -3,
     // color: "white",
-  },
-
-  Icon: {
-    marginTop: 20,
-  },
-  flipIcon: {
-    marginTop: 10,
-    transform: [{ rotate: "90deg" }],
-  },
-  flashIcon: {
-    marginTop: 20,
-  },
-  videoIcon: {
-    marginTop: 20,
-  },
-  musicIcon: {
-    marginTop: 20,
-  },
-  nightModeIcon: {
-    marginTop: 20,
   },
 });
