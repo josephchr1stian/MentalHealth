@@ -12,6 +12,7 @@ import { SmallChatFill } from "../../assets/snapchat/NavigationIcons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 
 //screen
 import ChatScreen from "./ChatScreen";
@@ -47,7 +48,34 @@ export default function SendToScreen() {
       }
     }
 
-    fetchUsers();
+    async function fetchOtherUsers() {
+      try {
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("id, username")
+          .limit(8);
+
+        if (error) {
+          console.error("Error fetching users:", error.message);
+          return;
+        }
+        if (data) {
+          setUsersToAdd(
+            data.map((user) => ({
+              id: user.id,
+              name: user.username,
+              username: user.username,
+            }))
+          );
+          console.log(data);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error.message);
+      }
+    }
+
+    //fetchUsers();
+    fetchOtherUsers();
   }, []);
 
   const renderItem = ({ item }) => (
@@ -64,10 +92,7 @@ export default function SendToScreen() {
         gap: 10,
       }}
     >
-      <Image
-        source={{ uri: item.profile_picture }}
-        style={{ width: 50, height: 50, borderRadius: 50 }}
-      />
+      <Image style={styles.bitmojiImage} source={defaultPhoto} />
       <Text>{item.name}</Text>
     </View>
   );
@@ -174,9 +199,32 @@ export default function SendToScreen() {
                 <Text>Clear All &gt;</Text>
               </Pressable>
             </View>
-
           </>
         ) : null}
+
+        <View>
+          {usersToAdd
+            //.filter((userToAdd) => !currentFriends.includes(userToAdd.id))
+            .map((user, index) => (
+              <View key={index}>
+                <TouchableOpacity
+                  style={styles.userContainer}
+                  onPress={() => {
+                    console.log(user);
+                  }}
+                >
+                  <Image style={styles.bitmojiImage} source={defaultPhoto} />
+                  <Text style={styles.bitmojiText}>{user.name}</Text>
+                  <Ionicons
+                    style={styles.userCamera}
+                    name="camera-outline"
+                    size={24}
+                    color="lightgrey"
+                  />
+                </TouchableOpacity>
+              </View>
+            ))}
+        </View>
       </SafeAreaView>
     </View>
   );
@@ -194,5 +242,24 @@ const styles = StyleSheet.create({
     height: 50,
     marginLeft: 10,
     marginRight: 10,
+  },
+  userContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+    marginBottom: 15,
+  },
+  bitmojiImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 30,
+    marginRight: 10,
+  },
+  bitmojiText: {
+    fontSize: 15,
+    //fontWeight: "700",
+    flex: 1, // To take up the remaining space
   },
 });
