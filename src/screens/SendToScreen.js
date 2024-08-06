@@ -18,15 +18,15 @@ import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 import ChatScreen from "./ChatScreen";
 import LoadingChats from "../components/LoadingChats";
 
-const SendTab = createBottomTabNavigator();
+
 const Stack = createStackNavigator();
 
 export default function SendToScreen() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState("");
   const [usersToAdd, setUsersToAdd] = useState([]);
-
   const [recents, setRecents] = useState([]);
+  const [clickedUsers, setClickedUsers] = useState({}); // State to track clicked users
 
   useEffect(() => {
     async function fetchUsers() {
@@ -59,6 +59,13 @@ export default function SendToScreen() {
     fetchUsers();
   }, []);
 
+  const handleUserClick = (userId) => {
+    setClickedUsers((prevState) => ({
+      ...prevState,
+      [userId]: !prevState[userId],
+    }));
+  };
+
   const renderItem = ({ item }) => (
     <View
       style={{
@@ -73,14 +80,22 @@ export default function SendToScreen() {
         gap: 10,
       }}
     >
-      <Image style={styles.bitmojiImage} source={defaultPhoto} />
-      <Text>{item.name}</Text>
-      <Ionicons
-        style={styles.circleIcon}
-        name="ellipse-outline"
-        size={24}
-        color="lightgrey"
-      />
+      <TouchableOpacity
+        style={styles.userContainer}
+        onPress={() => {
+          console.log(item);
+          handleUserClick(item.id);
+        }}
+      >
+        <Image style={styles.bitmojiImage} source={defaultPhoto} />
+        <Text>{item.name}</Text>
+        <Ionicons
+          style={styles.circleIcon}
+          name={clickedUsers[item.id] ? "ellipse" : "ellipse-outline"}
+          size={24}
+          color="lightgrey"
+        />
+      </TouchableOpacity>
     </View>
   );
 
@@ -129,11 +144,23 @@ export default function SendToScreen() {
             <TouchableOpacity style={styles.userStoriesContainer}>
               <Image style={styles.bitmojiImage} source={defaultPhoto} />
               <Text>My Story - Friends Only</Text>
+              <Ionicons
+                style={styles.circleIcon}
+                name= "ellipse-outline"
+                size={24}
+                color="lightgrey"
+              />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.userStoriesContainer}>
               <Image style={styles.bitmojiImage} source={defaultPhoto} />
               <Text> My Story - Public</Text>
+              <Ionicons
+                style={styles.circleIcon}
+                name="ellipse-outline"
+                size={24}
+                color="lightgrey"
+              />
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.userStoriesContainer}>
@@ -144,6 +171,12 @@ export default function SendToScreen() {
                 color="lightgrey"
               />
               <Text> Snap Map</Text>
+              <Ionicons
+                style={styles.circleIcon}
+                name="ellipse-outline"
+                size={24}
+                color="lightgrey"
+              />
             </TouchableOpacity>
           </View>
 
@@ -195,13 +228,14 @@ export default function SendToScreen() {
                     style={styles.userContainer}
                     onPress={() => {
                       console.log(user);
+                      handleUserClick(user.id);
                     }}
                   >
                     <Image style={styles.bitmojiImage} source={defaultPhoto} />
                     <Text style={styles.bitmojiText}>{user.name}</Text>
                     <Ionicons
                       style={styles.circleIcon}
-                      name="ellipse-outline"
+                      name={clickedUsers[user.id] ? "ellipse" : "ellipse-outline"}
                       size={24}
                       color="lightgrey"
                     />
