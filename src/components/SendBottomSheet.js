@@ -1,16 +1,12 @@
 import React from "react";
 import { BottomSheet, ListItem } from "@rneui/themed";
 import { StyleSheet } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const SendBottomSheet = ({ showMenu, setShowMenu }) => {
   const list = [
     {
-      title: "boop boop boop",
-      containerStyle: { backgroundColor: "#3CB2E2" },
-      titleStyle: { color: "white" },
-    },
-    {
-      title: "Done",
+      title: "",
       containerStyle: { backgroundColor: "#3CB2E2" },
       titleStyle: { color: "white" },
       onPress: () => setShowMenu(false),
@@ -30,8 +26,14 @@ const SendBottomSheet = ({ showMenu, setShowMenu }) => {
     >
       {list.map((l, i) => (
         <ListItem key={i} containerStyle={l.containerStyle} onPress={l.onPress}>
-          <ListItem.Content>
+          <ListItem.Content style={styles.listItemContent}>
             <ListItem.Title style={l.titleStyle}>{l.title}</ListItem.Title>
+            <Ionicons
+              style={styles.sendIcon}
+              name="send"
+              size={24}
+              color="white"
+            />
           </ListItem.Content>
         </ListItem>
       ))}
@@ -40,8 +42,13 @@ const SendBottomSheet = ({ showMenu, setShowMenu }) => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    margin: 10,
+  listItemContent: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  sendIcon: {
+    marginRight: 10,
   },
 });
 
