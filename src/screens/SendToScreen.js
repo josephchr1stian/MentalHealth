@@ -5,7 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Button } from "react-native-elements";
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { Pressable, FlatList, Item, ScrollView } from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import { SmallChatFill } from "../../assets/snapchat/NavigationIcons";
@@ -29,7 +29,7 @@ export default function SendToScreen() {
   const [recents, setRecents] = useState([]);
 
   useEffect(() => {
-    async function fetchOtherUsers() {
+    async function fetchUsers() {
       try {
         const { data, error } = await supabase
           .from("profiles")
@@ -56,8 +56,7 @@ export default function SendToScreen() {
       }
     }
 
-    //fetchUsers();
-    fetchOtherUsers();
+    fetchUsers();
   }, []);
 
   const renderItem = ({ item }) => (
@@ -66,7 +65,7 @@ export default function SendToScreen() {
         backgroundColor: "#fff",
         borderRadius: 10,
         padding: 10,
-        margin: 4,
+        margin: 2,
         alignItems: "center",
         width: "50%",
         flexDirection: "row",
@@ -76,6 +75,12 @@ export default function SendToScreen() {
     >
       <Image style={styles.bitmojiImage} source={defaultPhoto} />
       <Text>{item.name}</Text>
+      <Ionicons
+        style={styles.circleIcon}
+        name="ellipse-outline"
+        size={24}
+        color="lightgrey"
+      />
     </View>
   );
 
@@ -116,103 +121,97 @@ export default function SendToScreen() {
             <Text style={{ fontWeight: "bold" }}> Cancel</Text>
           </Pressable>
         </View>
-        {/* <Image
-        source={{uri: usersToAdd[0].profile_picture}}
-        style={{ width: 400, height: 400, borderRadius: 400 / 2 }}
-      /> */}
-      <ScrollView
-          horizontal={false}
-          showsHorizontalScrollIndicator={false}
-        >
-        <Text style={{ paddingLeft: 10, fontWeight: "bold" }}>Stories</Text>
 
-        <View>
-          <TouchableOpacity style={styles.userStoriesContainer}>
-            <Text>My Story - Friends Only</Text>
-          </TouchableOpacity>
+        <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}>
+          <Text style={{ paddingLeft: 10, fontWeight: "bold" }}>Stories</Text>
 
-          <TouchableOpacity style={styles.userStoriesContainer}>
-            <Text> My Story - Public</Text>
-          </TouchableOpacity>
+          <View>
+            <TouchableOpacity style={styles.userStoriesContainer}>
+              <Image style={styles.bitmojiImage} source={defaultPhoto} />
+              <Text>My Story - Friends Only</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.userStoriesContainer}>
-          <Ionicons
-              style={styles.userCamera}
-              name="location"
-              size={24}
-              color="lightgrey"
+            <TouchableOpacity style={styles.userStoriesContainer}>
+              <Image style={styles.bitmojiImage} source={defaultPhoto} />
+              <Text> My Story - Public</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.userStoriesContainer}>
+              <Ionicons
+                style={styles.userCamera}
+                name="location"
+                size={24}
+                color="lightgrey"
+              />
+              <Text> Snap Map</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={{ paddingLeft: 10, fontWeight: "bold" }}>
+            Best Friends
+          </Text>
+          {usersToAdd.length > 1 ? (
+            <FlatList
+              style={{ marginLeft: 10, marginRight: 10 }}
+              data={usersToAdd}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.Username}
+              numColumns={2}
+              columnWrapperStyle={{ justifyContent: "space-between" }}
+              contentContainerStyle={{ alignItems: "center" }}
+              scrollEnabled={false}
             />
-            <Text> Snap Map</Text>
-            
-          </TouchableOpacity>
-        </View>
+          ) : (
+            <Text>No "usersToAdd" table</Text>
+          )}
 
-        <Text style={{ paddingLeft: 10, fontWeight: "bold" }}>
-          Best Friends
-        </Text>
-        {usersToAdd.length > 1 ? (
-          <FlatList
-            style={{ marginLeft: 10, marginRight: 10 }}
-            data={usersToAdd}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.Username}
-            numColumns={2}
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-            contentContainerStyle={{ alignItems: "center" }}
-            scrollEnabled={false}
-          />
-        ) : (
-          <Text>No "usersToAdd" table</Text>
-        )}
-
-        {recents.length > 0 ? (
-          <>
-            <View
-              style={{
-                justifyContent: "space-between",
-                flexDirection: "row",
-                paddingHorizontal: 20,
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>Recents</Text>
-              <Pressable
-                onPress={() => {
-                  setRecents([]);
+          {recents.length > 0 ? (
+            <>
+              <View
+                style={{
+                  justifyContent: "space-between",
+                  flexDirection: "row",
+                  paddingHorizontal: 20,
                 }}
               >
-                <Text>Clear All &gt;</Text>
-              </Pressable>
-            </View>
-          </>
-        ) : null}
-
-        <View style={styles.recentsContainer}>
-          {usersToAdd
-            //.filter((userToAdd) => !currentFriends.includes(userToAdd.id))
-            .map((user, index) => (
-              <View key={index}>
-                <TouchableOpacity
-                  style={styles.userContainer}
+                <Text style={{ fontWeight: "bold" }}>Recents</Text>
+                <Pressable
                   onPress={() => {
-                    console.log(user);
+                    setRecents([]);
                   }}
                 >
-                  <Image style={styles.bitmojiImage} source={defaultPhoto} />
-                  <Text style={styles.bitmojiText}>{user.name}</Text>
-                  <Ionicons
-                    style={styles.userCamera}
-                    name="camera-outline"
-                    size={24}
-                    color="lightgrey"
-                  />
-                </TouchableOpacity>
+                  <Text>Clear All &gt;</Text>
+                </Pressable>
               </View>
-            ))}
-        </View>
+            </>
+          ) : null}
+
+          <View style={styles.recentsContainer}>
+            {usersToAdd
+              //.filter((userToAdd) => !currentFriends.includes(userToAdd.id))
+              .map((user, index) => (
+                <View key={index}>
+                  <TouchableOpacity
+                    style={styles.userContainer}
+                    onPress={() => {
+                      console.log(user);
+                    }}
+                  >
+                    <Image style={styles.bitmojiImage} source={defaultPhoto} />
+                    <Text style={styles.bitmojiText}>{user.name}</Text>
+                    <Ionicons
+                      style={styles.circleIcon}
+                      name="ellipse-outline"
+                      size={24}
+                      color="lightgrey"
+                    />
+                  </TouchableOpacity>
+                </View>
+              ))}
+          </View>
         </ScrollView>
       </SafeAreaView>
     </View>
-    
   );
 }
 
@@ -244,12 +243,15 @@ const styles = StyleSheet.create({
   },
   bitmojiText: {
     fontSize: 15,
-    //fontWeight: "700",
     flex: 1, // To take up the remaining space
   },
   recentsContainer: {
     backgroundColor: "#fff",
     marginLeft: 10,
+    marginRight: 10,
+    borderRadius: 10,
+  },
+  circleIcon: {
     marginRight: 10,
   },
 });
