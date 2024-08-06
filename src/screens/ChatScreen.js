@@ -103,7 +103,7 @@ export default function ChatScreen({ navigation }) {
 
       <View>
         {/* commrnted out BasicChatbot to see what it looks like w/out */}
-        
+
         {/* {chats?.map((chat) => (
           <TouchableOpacity
             style={styles.userButton}
@@ -133,7 +133,7 @@ export default function ChatScreen({ navigation }) {
         <ScrollView
           horizontal={false}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.stories}
+          //contentContainerStyle={styles.stories}
         >
           <LoadingChats navigation={navigation} />
         </ScrollView>
