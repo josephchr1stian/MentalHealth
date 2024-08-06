@@ -5,7 +5,7 @@ export default function SendSnapScreen() {
   return (
     <SafeAreaView >
       <TouchableOpacity style={styles.Active}>
-        <Text> hiiii </Text>
+        <Text > hiiii </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
