@@ -1,4 +1,3 @@
-// import { color } from "@rneui/base";
 import { Image, Platform, Text, View, StyleSheet } from "react-native";
 import { SearchBar } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -245,7 +244,8 @@ export default function SendToScreen() {
               ))}
           </View>
         </ScrollView>
-        <SendBottomSheet />
+        {/* uhhhh no work yet
+        <SendBottomSheet /> */}
       </SafeAreaView>
     </View>
   );
