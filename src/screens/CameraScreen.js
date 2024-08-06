@@ -23,6 +23,7 @@ import { supabase } from "../utils/hooks/supabase";
 import CameraGalleryMenu from "../components/CameraGalleryMenu";
 import { Button, FAB } from "react-native-elements";
 import { ListItem } from "@rneui/themed";
+import { Overlay } from "react-native-elements";
 import { Icon } from "@rneui/themed";
 
 export default function CameraScreen({ navigation, focused }) {
@@ -62,11 +63,10 @@ export default function CameraScreen({ navigation, focused }) {
         <Text style={styles.message}>
           We need your permission to show the camera.
         </Text>
-        <TouchableOpacity onPress={requestPermission} style={styles.button}>
-          <Text color="red" style={styles.text}>
-            Grant 400 Permission
-          </Text>
-        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={requestPermission}
+          style={styles.button}
+        ></TouchableOpacity>
       </View>
     );
   }
@@ -135,6 +135,8 @@ export default function CameraScreen({ navigation, focused }) {
       });
     };
 
+    // If there is a photo taken we see this
+
     return (
       <View
         style={[
@@ -142,7 +144,7 @@ export default function CameraScreen({ navigation, focused }) {
           {
             marginBottom: tabBarHeight,
             paddingTop: insets.top,
-            backgroundColor: "red",
+            // backgroundColor: 'orange',
             paddingBottom: insets.bottom,
           },
         ]}
@@ -159,6 +161,23 @@ export default function CameraScreen({ navigation, focused }) {
             savePhoto={savePhoto}
           />
         )}
+        <View style={styles.bottomRow}>
+          <TouchableOpacity
+            style={[styles.save, { backgroundColor: "#6e6e6e" }]}
+            onPress={() => { }}
+          >
+            <Text style={styles.buttonText}>Stories</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.sendTo, { backgroundColor: "#00000" }]}
+            onPress={() => {
+              navigation.navigate("SnapScreen");
+            }}
+          >
+            <Text style={styles.buttonText}>Send To</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -222,23 +241,6 @@ export default function CameraScreen({ navigation, focused }) {
     );
   }
 
-  const list2 = [
-    {
-      name: "John Doe",
-      subtitle: "Software Engineer",
-      avatar_url: "https://example.com/avatar1.jpg",
-    },
-    {
-      name: "Jane Smith",
-      subtitle: "Product Manager",
-      avatar_url: "https://example.com/avatar2.jpg",
-    },
-    {
-      name: "Sam Wilson",
-      subtitle: "Designer",
-      avatar_url: "https://example.com/avatar3.jpg",
-    },
-  ];
   return (
     <View
       style={[
@@ -251,38 +253,10 @@ export default function CameraScreen({ navigation, focused }) {
         },
       ]}
     >
-
-        {/* <ListItem.Accordion
-          content={
-            <>
-              <Icon name="expand-more" size={30} />
-              <ListItem.Content>
-                <ListItem.Title>myWellness</ListItem.Title>
-              </ListItem.Content>
-            </>
-          }
-          isExpanded={expanded}
-          containerStyle = {styles.dropdown}
-          onPress={() => {
-            console.log("Cheese");
-            setExpanded(!expanded);
-          }}
-        >
-          {list2.map((l, i) => (
-            <ListItem key={i} bottomDivider>
-              <ListItem.Content>
-                <ListItem.Title>{l.name}</ListItem.Title>
-                <ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
-              </ListItem.Content>
-              <ListItem.Chevron />
-            </ListItem>
-          ))}
-        </ListItem.Accordion> */}
-      
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
-      
+
       <CameraOptions flipCamera={flipCamera} />
-      
+
       <CameraActions
         galleryMenu={galleryMenu}
         checkGallery={checkGallery}
@@ -297,6 +271,43 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffffff",
   },
+  bottomRow: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: "8%",
+    flexDirection: "row",
+    backgroundColor: "#333333",
+    justifyContent: "space-around", // Space buttons evenly
+    paddingHorizontal: 20,
+    zIndex: 10000,
+  },
+  save: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderRadius: 60,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  sendTo: {
+    flex: 1,
+    marginHorizontal: 5,
+    borderRadius: 60,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonStyle: {
+    backgroundColor: "#00aeef",
+    borderColor: "red",
+    borderWidth: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   camera: {
     overflow: "hidden",
     flex: 1,
@@ -305,10 +316,11 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   dropdown: {
-    backgroundColor : 'transparent',
+    position: "absolute",
+    bottom: 10,
+    backgroundColor: "transparent",
     borderRadius: 20,
-    width: '20%',
-
+    width: "20%",
   },
   preview: {
     flex: 1,
