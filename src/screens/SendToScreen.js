@@ -27,6 +27,7 @@ export default function SendToScreen() {
   const [usersToAdd, setUsersToAdd] = useState([]);
   const [recents, setRecents] = useState([]);
   const [clickedUsers, setClickedUsers] = useState({}); // State to track clicked users
+  const [showBottomSheet, setShowBottomSheet] = useState(false);
 
   useEffect(() => {
     async function fetchUsers() {
@@ -60,10 +61,11 @@ export default function SendToScreen() {
   }, []);
 
   const handleUserClick = (userId) => {
-    setClickedUsers((prevState) => ({
-      ...prevState,
-      [userId]: !prevState[userId],
-    }));
+    setClickedUsers((prevState) => {
+      const newState = { ...prevState, [userId]: !prevState[userId] };
+      setShowBottomSheet(Object.keys(newState).length > 0); // Show BottomSheet if any user is clicked
+      return newState;
+    });
   };
 
   const renderItem = ({ item }) => (
@@ -244,8 +246,8 @@ export default function SendToScreen() {
               ))}
           </View>
         </ScrollView>
-        {/* uhhhh no work yet
-        <SendBottomSheet /> */}
+        {/* uhhhh no work yet */}
+        <SendBottomSheet showMenu={showBottomSheet} setShowMenu={setShowBottomSheet} />
       </SafeAreaView>
     </View>
   );
