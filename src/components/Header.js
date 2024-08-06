@@ -14,6 +14,9 @@ import { useAuthentication } from "../utils/hooks/useAuthentication";
 import { supabase } from "../utils/hooks/supabase";
 
 import SelectionMenu from "./SelectionMenu";
+//temp send bottom sheet
+import SendBottomSheet from "./SendBottomSheet";
+
 const Stack = createStackNavigator();
 
 export default function Header({ title }) {
@@ -94,7 +97,8 @@ export default function Header({ title }) {
           </View>
         </Pressable>
         {/* {showMenu && <SelectionMenu/>} */}
-        <SelectionMenu showMenu={showMenu} setShowMenu={setShowMenu} />
+        {/* <SelectionMenu showMenu={showMenu} setShowMenu={setShowMenu} /> */}
+        <SendBottomSheet showMenu={showMenu} setShowMenu={setShowMenu} />
       </View>
     </View>
   );

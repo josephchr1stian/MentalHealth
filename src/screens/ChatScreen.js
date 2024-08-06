@@ -102,7 +102,9 @@ export default function ChatScreen({ navigation }) {
       </View>
 
       <View>
-        {chats?.map((chat) => (
+        {/* commrnted out BasicChatbot to see what it looks like w/out */}
+
+        {/* {chats?.map((chat) => (
           <TouchableOpacity
             style={styles.userButton}
             onPress={() => {
@@ -127,13 +129,12 @@ export default function ChatScreen({ navigation }) {
               color="lightgrey"
             />
           </TouchableOpacity>
-        ))}
+        ))} */}
         <ScrollView
           horizontal={false}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.stories}
         >
-          <LoadingChats />
+          <LoadingChats navigation={navigation} />
         </ScrollView>
       </View>
       <FAB //initiatives button

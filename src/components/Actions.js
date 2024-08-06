@@ -13,6 +13,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Button, FAB } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
@@ -22,9 +23,13 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
   const [imageURL, setImageURL] = useState("");
   const [actions, setActions] = useState([]);
   const navigation = useNavigation();
+
   const fetchData = async () => {
     try {
-      const { data, error } = await supabase.from("allPrompt").select("*");
+      const { data, error } = await supabase
+        .from("allPrompt")
+        .select("*")
+        .order("id", { ascending: true }); // Sorting by 'id' in ascending order;
       if (error) {
         console.error("Error fetching data:", error);
       } else {
@@ -34,13 +39,13 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
     } catch (error) {
       console.error("Unexpected error:", error);
     }
+    console.log(data);
   };
 
-  function handleThat(update, close){
-    navigation.navigate('Camera');
+  function handleThat(update, close) {
+    navigation.navigate("Camera");
     update();
     close();
-
   }
   useEffect(() => {
     fetchData();
@@ -54,30 +59,25 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
     >
       <Text style={styles.eventText}>Snap Daily</Text>
       <FlatList
+        style={{ backgroundColor: "white" }}
         data={actions}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <SafeAreaView style={styles.Select}>
-            {/* <Text style={styles.context}>{item.prompts.context}</Text> */}
-            <Button
-              onPress={() => handleThat(updateStreak, onClose)}
-              title={item.prompts.prompt}
-              buttonStyle={{
-                borderColor: "#d9d9d9",
-                borderBottomColor: "#ffff",
-                borderWidth: 1,
-                widith: "120%",
-                height: 80,
-              }}
-              type="outline"
-              titleStyle={{ fontWeight: "normal", textAlign:'left', fontSize: 18, color: "#000ff" }}
-              containerStyle={{
-                width: "110%",
-                marginHorizontal: 100,
-                marginVertical: 0,
-              }}
-            />
-          </SafeAreaView>
+          <TouchableOpacity
+            onPress={() => handleThat(updateStreak, onClose)}
+            style={styles.button}
+          >
+            <View style={styles.inline}>
+              <Text style={styles.emoji}>{item.prompts.emoji}</Text>
+              <Text style={styles.prompt}>{item.prompts.prompt}</Text>
+              <Ionicons
+                style={styles.arrowIcon}
+                name="chevron-forward"
+                size={24}
+                color="grey"
+              />
+            </View>
+          </TouchableOpacity>
         )}
       />
     </Dialog>
@@ -97,13 +97,15 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   Select: {
-    flexDirection: "column",
+    borderColor: "#d9d9d9",
+    borderBottomColor: "#ffff",
+    borderWidth: 1,
+    flexDirection: "row",
+    width: "100%",
     alignItems: "center",
-    justifyContent: "left",
+    justifyContent: "space-between",
     marginHorizontal: 10,
-    backgroundColor: "FFFFFF",
-    width: "auto",
-    height: "auto",
+    marginBottom: 10,
   },
   context: {
     textAlign: "center",
@@ -114,18 +116,31 @@ const styles = StyleSheet.create({
     backgroundColor: "cyan",
   },
   button: {
-    backgroundColor: "#3CB2E2",
+    backgroundColor: "white",
     borderRadius: 5,
     height: 50,
-    width: 20,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
     marginVertical: 10,
+    paddingHorizontal: 10,
   },
   buttonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
+  inline: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  emoji: {
+    fontSize: 40,
+    marginRight: 10,
+  },
+  prompt: {
+    fontSize: 18,
+    flex: 1,
+  },
+  arrowIcon: {},
 });
