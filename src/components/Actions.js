@@ -14,6 +14,7 @@ import { Button, FAB } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import LinearGradient from "react-native-linear-gradient";
 
 export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
@@ -57,30 +58,37 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
       isVisible={isVisible}
       onBackdropPress={onClose}
     >
-      <Text style={styles.eventText}>Snap Daily</Text>
-      <Text style={styles.text}>A place to grow healthy minds.</Text>
-      <FlatList
-        style={{ backgroundColor: "white" }}
-        data={actions}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() => handleThat(updateStreak, onClose)}
-            style={styles.button}
-          >
-            <View style={styles.inline}>
-              <Text style={styles.emoji}>{item.prompts.emoji}</Text>
-              <Text style={styles.prompt}>{item.prompts.prompt}</Text>
-              <Ionicons
-                style={styles.arrowIcon}
-                name="chevron-forward"
-                size={24}
-                color="grey"
-              />
-            </View>
-          </TouchableOpacity>
-        )}
-      />
+      <LinearGradient
+        colors={["#4c669f", "#3b5998", "#192f6a"]} // Customize your gradient colors
+        style={styles.gradient}
+      >
+        <Text style={styles.eventText}>Snap Daily</Text>
+        <Text style={styles.text}>A place to grow healthy minds.</Text>
+        <View>
+          <FlatList
+            style={styles.listFrame}
+            data={actions}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => handleThat(updateStreak, onClose)}
+                style={styles.button}
+              >
+                <View style={styles.inline}>
+                  <Text style={styles.emoji}>{item.prompts.emoji}</Text>
+                  <Text style={styles.prompt}>{item.prompts.prompt}</Text>
+                  <Ionicons
+                    style={styles.arrowIcon}
+                    name="chevron-forward"
+                    size={24}
+                    color="grey"
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </LinearGradient>
     </Dialog>
   );
 }
@@ -96,12 +104,24 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginBottom: 20,
+    color: "#10A9A1",
+  },
+  gradient: {
+    flex: 1, // Makes the gradient cover the entire area of the dialog
+    borderRadius: 10, // Adjust if necessary
+    padding: 10, // Adjust as needed
   },
   text: {
     textAlign: "center",
     fontSize: 15,
     //fontWeight: "bold",
     marginBottom: 20,
+    color: "#10A9A1",
+  },
+  listFrame: {
+    shadowRadius: 5,
+    shadowColor: "black",
+    backgroundColor: "red",
   },
   Select: {
     borderColor: "#d9d9d9",
