@@ -1,13 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, SafeAreaView, Platform } from "react-native";
+import defaultProfileImage from "../../assets/snapchat/defaultprofile12.png";
 import { getChat } from "../utils/hooks/getChatGPT";
 import { supabase } from "../utils/hooks/supabase";
 
 const CHATBOT_USER_OBJ = {
   _id: 2,
-  name: "MyAi",
+  name: "MyWellness",
   avatar:
-    "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/ghostFlat.png",
+    "../../assets/snapchat/mywellness.png",
 };
 
 const prompt = [
@@ -81,6 +84,15 @@ export default function MyAi() {
     ]);
   };
 
+  // We have a previous message array we are updating. We can create our chat response using this
+  // When chat or user sends a message
+  // We need to show the message, and call add new message
+  // When the user sends a message
+  // Add this message history
+  //Send everything to chat
+  // Map thru message history to send the right things to chat
+  //Add chat reply to history
+  //Display messages
 
   // Reverse the messages
   const respondToUser = (userMessages) => {
