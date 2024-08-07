@@ -22,7 +22,7 @@ export default function ConversationScreen({ route, navigation }) {
 
   return (
     <ImageBackground
-      source={{ uri: "https://i.imgur.com/bEJZSpH.png" }} 
+      source={{ uri: "https://i.imgur.com/MfiOQCb.png" }} 
       style={styles.background}
     >
       <SafeAreaView style={styles.container}>
