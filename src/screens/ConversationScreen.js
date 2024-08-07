@@ -9,13 +9,6 @@ import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import MyAi from "../chatbots/MyAi";
 
-const CHATBOT_USER_OBJ = {
-  // user you are trying to send a message to
-  _id: 2,
-  name: "React Native Chatbot",
-  avatar: "https://loremflickr.com/140/140",
-};
-
 export const CHATBOTS = {
   "BasicChatbot": {
     name: "React Native Chatbot",
