@@ -7,6 +7,7 @@ import BasicChatbot from "../chatbots/BasicChatbot";
 import { supabase } from "../utils/hooks/supabase";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
+import MyAi from "../chatbots/MyAi";
 
 const CHATBOT_USER_OBJ = {
   // user you are trying to send a message to
@@ -20,6 +21,11 @@ export const CHATBOTS = {
     name: "React Native Chatbot",
     imageUrl: "https://loremflickr.com/140/140",
     component: BasicChatbot,
+  },
+  "MyAi": {
+    name: "React Native Chatbot",
+    imageUrl: "https://loremflickr.com/140/140",
+    component: MyAi,
   }
 };
 
