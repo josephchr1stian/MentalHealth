@@ -146,7 +146,7 @@ export default function SendToScreen() {
 
           <View>
             <TouchableOpacity style={styles.userStoriesContainer}>
-              <Image style={styles.bitmojiImage} source={defaultPhoto} />
+              <Image style={styles.bitmojiImage} source={require("../../assets/snapchat/masiel.jpg")} />
               <Text>My Story - Friends Only</Text>
               <Ionicons
                 style={styles.circleIcon}
@@ -157,7 +157,7 @@ export default function SendToScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.userStoriesContainer}>
-              <Image style={styles.bitmojiImage} source={defaultPhoto} />
+              <Image style={styles.bitmojiImage} source={require("../../assets/snapchat/masiel.jpg")} />
               <Text> My Story - Public</Text>
               <Ionicons
                 style={styles.circleIcon}
