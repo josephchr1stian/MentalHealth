@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../utils/hooks/supabase";
@@ -84,12 +84,17 @@ export default function PostcaptureOptions() {
             toggleVis();
           }}
         >
-          <ImageBackground
+          <Image
+          style = {styles.pic}
+          source={{uri:'/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}>
+
+          </Image>
+          {/* <ImageBackground
             style = {styles.pic}
             source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
             >
 
-          </ImageBackground>
+          </ImageBackground> */}
           <Ionicons
             style={styles.musicIcon}
             name="heart"

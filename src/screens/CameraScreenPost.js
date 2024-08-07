@@ -25,7 +25,8 @@ import PostcaptureOptions from "../components/PostcaptureActions";
 
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-export default function CameraScreenPost({}) {
+export default function CameraScreenPost({ route }) {
+  const { photo1 } = route.params || {uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png"} ;
   //   const tabBarHeight = useBottomTabBarHeight();
   const insets = useSafeAreaInsets();
   const cameraRef = useRef(null);
@@ -38,9 +39,7 @@ export default function CameraScreenPost({}) {
   //const [image, setImage] = useState(null);
   const [showGalleryMenu, setShowGalleryMenu] = useState(false);
   const navigation = useNavigation();
-
   const [sending, setSending] = useState(false);
-  const route = useRoute();
 
   function savePhoto() {
     MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
@@ -48,7 +47,6 @@ export default function CameraScreenPost({}) {
     });
   }
 
-  const photoImport = route.params;
   return (
     <View
       style={[
@@ -61,17 +59,19 @@ export default function CameraScreenPost({}) {
         },
       ]}
     >
-        
       <Image
         style={facing === "front" ? styles.frontPreview : styles.preview}
         //source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         // We don't need that base64 thing, just uri is good
-        source={{ uri: photoImport.uri }}
-        // source={{ uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" }}
+        // source={{ uri: photo1.uri }}
+        source={{ uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" }}
       />
-      <Text position= {{top: 100, right: 40 }}> This is a new screen why nav..... </Text>
+      <Text position={{ top: 100, right: 40 }}>
+        {" "}
+        This is a new screen why nav.....{" "}
+      </Text>
 
-       <PostcaptureOptions></PostcaptureOptions>
+      <PostcaptureOptions></PostcaptureOptions>
       <View style={styles.bottomRow}>
         {/* <PostcaptureOptions></PostcaptureOptions> */}
         <FAB

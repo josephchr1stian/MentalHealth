@@ -29,6 +29,7 @@ import { Button, FAB } from "react-native-elements";
 import { ListItem } from "@rneui/themed";
 import { Overlay } from "react-native-elements";
 import { Icon } from "@rneui/themed";
+import { ImageBackground } from "react-native";
 
 export default function CameraScreen({ navigation, focused }) {
   const tabBarHeight = useBottomTabBarHeight();
@@ -103,10 +104,6 @@ export default function CameraScreen({ navigation, focused }) {
     }
   }
 
-
-
-
-
   async function takePhoto() {
     if (cameraRef.current) {
       navigation.navigate("CameraScreenPost");
@@ -114,19 +111,17 @@ export default function CameraScreen({ navigation, focused }) {
       console.log("Taking Photo now");
       const options = { quality: 1, base64: true, exif: false };
       const passPhoto = await cameraRef.current.takePictureAsync(options);
-      const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
-      setPhoto(newPhoto);
-      navigation.navigate("CameraScreenPost", {photo: passPhoto});
-      // console.log("This is the photo", newPhoto);
-      // This part is to insert URI to "gallery" table
-      // console.log(" Before Insert to table!");
-      // // const { error } = await supabase
-      // //   .from("gallery")
-      // //   .insert({ photo: newPhoto.uri });
-      // console.log("After Insert to table!");
-      // if (error) {
-      //   console.error("Error inserting photo:", error.message);
-      // }
+      // const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
+      setPhoto(passPhoto);
+      const { error } = await supabase
+        .from("gallery")
+        .insert({ photo: passPhoto.uri });
+      console.log("After Insert to table!");
+      if (error) {
+        console.error("Error inserting photo:", error.message);
+      }
+      console.log(passPhoto);
+      navigation.navigate("CameraScreenPost", { photo: passPhoto });
     }
   }
 
@@ -137,49 +132,58 @@ export default function CameraScreen({ navigation, focused }) {
   }
 
   // There is a photo
-  if (photo) {
-    const sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(null);
+  // if (photo) {
+  //   const sharePic = () => {
+  //     shareAsync(photo.uri).then(() => {
+  //       setPhoto(null);
 
-        navigation.setOptions({ tabBarStyle: { display: "none" } });
-      });
-    };
+  //       navigation.setOptions({ tabBarStyle: { display: "none" } });
+  //     });
+  //   };
 
-    // If there is a photo taken we see this
+  //   // If there is a photo taken we see this
 
-    return (
-      <View
-        style={[
-          styles.container,
-          {
-            marginBottom: tabBarHeight,
-            paddingTop: insets.top,
-            // backgroundColor: 'orange',
-            paddingBottom: insets.bottom,
-          },
-        ]}
-      >
-        <Image
-          style={facing === "front" ? styles.frontPreview : styles.preview}
-          //source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-          // We don't need that base64 thing, just uri is good
-          source={{ uri: photo.uri }}
-        />
-        {hasMediaLibraryPermission && (
-          <PostcaptureOptions
-            deletePhoto={() => setPhoto(null)}
-            savePhoto={savePhoto}
-          />
-        )}
-        <View style={styles.bottomRow}>
-          <FAB title="" icon={{ name: 'download', color: 'white' }} color="#6e6e6e"></FAB>
-          <FAB title="Stories"  fontWeight= 'bold' color="#6e6e6e"></FAB>
-          <FAB title='Send to joe' icon={{ name: 'send', color: 'white' }} color="#10A9A1" onPress={() => navigation.navigate('SnapScreen')}></FAB>
-        </View>
-      </View>
-    );
-  }
+  //   return (
+  //     <View
+  //       style={[
+  //         styles.container,
+  //         {
+  //           marginBottom: tabBarHeight,
+  //           paddingTop: insets.top,
+  //           // backgroundColor: 'orange',
+  //           paddingBottom: insets.bottom,
+  //         },
+  //       ]}
+  //     >
+  //       <Image
+  //         style={facing === "front" ? styles.frontPreview : styles.preview}
+  //         //source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+  //         // We don't need that base64 thing, just uri is good
+  //         source={{ uri: photo.uri }}
+  //       />
+  //       {hasMediaLibraryPermission && (
+  //         <PostcaptureOptions
+  //           deletePhoto={() => setPhoto(null)}
+  //           savePhoto={savePhoto}
+  //         />
+  //       )}
+  //       <View style={styles.bottomRow}>
+  //         <FAB
+  //           title=""
+  //           icon={{ name: "download", color: "white" }}
+  //           color="#6e6e6e"
+  //         ></FAB>
+  //         <FAB title="Stories" fontWeight="bold" color="#6e6e6e"></FAB>
+  //         <FAB
+  //           title="Send to joe"
+  //           icon={{ name: "send", color: "white" }}
+  //           color="#10A9A1"
+  //           onPress={() => navigation.navigate("SnapScreen")}
+  //         ></FAB>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   if (showGalleryMenu) {
     return (
@@ -248,11 +252,17 @@ export default function CameraScreen({ navigation, focused }) {
           marginBottom: tabBarHeight,
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
-          backgroundColor: "transparent", // COLOR OF the camera
+          backgroundColor: "rgba(0, 0, 0, 0.00)", // COLOR OF the camera
         },
       ]}
     >
+
+     
+
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
+      <ImageBackground source={{uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png"}} style={styles.pic}>
+      </ImageBackground>
+
 
       <CameraOptions flipCamera={flipCamera} />
 
@@ -268,7 +278,17 @@ export default function CameraScreen({ navigation, focused }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor:"rgba(0, 0, 0, 0.00)" ,
+  },
+  pic: {
+    
+    position: "absolute",
+    left: -50,
+    top: 0,
+    width: '110%', // Adjust size as needed
+    height: '110%', // Adjust size as needed
+    justifyContent: "center",
+    alignItems: "center",
   },
   bottomRow: {
     position: "absolute",
@@ -312,6 +332,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.00)",
     borderRadius: 16,
   },
   dropdown: {
