@@ -14,7 +14,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   const [pressedIcon, setPressedIcon] = useState(null);
 
   const fetchData = async () => {
-    console.log("oooo im gonna fetch");
+
     try {
       const { data, error } = await supabase
         .from("allPrompt")
@@ -23,7 +23,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
       if (error) {
         console.error("Error fetching data:", error);
       } else {
-        console.log("data is", data);
+
         setAction(data[0].prompts.prompt);
         setSuggestion(data[0].prompts.context);
       }

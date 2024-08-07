@@ -12,7 +12,7 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
   const [visible, setVisible] = useState(false);
 
   const fetchData = async () => {
-    console.log("oooo im gonna fetch");
+
     try {
       const { data, error } = await supabase
         .from("allPrompt")
@@ -21,7 +21,6 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
       if (error) {
         console.error("Error fetching data:", error);
       } else {
-        console.log("data is", data);
         setAction(data[0].prompts.prompt);
         setSuggestion(data[0].prompts.context);
       }
@@ -32,7 +31,7 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
 
   function toggleVis() {
     setVisible(!visible);
-    console.log("Toggle");
+
   }
   useEffect(() => {
     fetchData();

@@ -13,11 +13,15 @@ import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { shareAsync } from "expo-sharing";
 import * as ImagePicker from "expo-image-picker";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBar,
+  useBottomTabBarHeight,
+} from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CameraActions from "../components/CameraActions";
 import CameraOptions from "../components/CameraOptions";
 import PostcaptureOptions from "../components/PostcaptureActions";
+import { useNavigation } from "@react-navigation/native";
 // Add supabase to store:
 import { supabase } from "../utils/hooks/supabase";
 import CameraGalleryMenu from "../components/CameraGalleryMenu";
@@ -40,6 +44,7 @@ export default function CameraScreen({ navigation, focused }) {
   const [showGalleryMenu, setShowGalleryMenu] = useState(false);
 
   const [sending, setSending] = useState(false);
+  const nav2 = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -101,23 +106,24 @@ export default function CameraScreen({ navigation, focused }) {
   async function takePhoto() {
     if (cameraRef.current) {
       // navigation.navigate("SnapScreen")
-
       console.log("Taking Phot1o");
       const options = { quality: 1, base64: true, exif: false };
       const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
       setPhoto(newPhoto);
+      console.log("turning that shit #off");
+      xbox = useNavigation();
+      xbox.setOptions({ tabBarStyle: { display: "none" } });
+
       // console.log("This is the photo", newPhoto);
       // This part is to insert URI to "gallery" table
-      console.log(" Before Insert to table!");
-      const { error } = await supabase
-        .from("gallery")
-        .insert({ photo: newPhoto.uri });
-      console.log("After Insert to table!");
+      // console.log(" Before Insert to table!");
+      // // const { error } = await supabase
+      // //   .from("gallery")
+      // //   .insert({ photo: newPhoto.uri });
+      // console.log("After Insert to table!");
       if (error) {
         console.error("Error inserting photo:", error.message);
       }
-      // This part is to store images in a folder bucket named "pictureStorage"
-      //uploadImage(newPhoto.uri);
     }
   }
 
@@ -132,6 +138,8 @@ export default function CameraScreen({ navigation, focused }) {
     const sharePic = () => {
       shareAsync(photo.uri).then(() => {
         setPhoto(null);
+        console.log("kill me");
+        navigation.setOptions({ tabBarStyle: { display: "none" } });
       });
     };
 
@@ -162,21 +170,9 @@ export default function CameraScreen({ navigation, focused }) {
           />
         )}
         <View style={styles.bottomRow}>
-          <TouchableOpacity
-            style={[styles.save, { backgroundColor: "#6e6e6e" }]}
-            onPress={() => { }}
-          >
-            <Text style={styles.buttonText}>Stories</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.sendTo, { backgroundColor: "#00000" }]}
-            onPress={() => {
-              navigation.navigate("SnapScreen");
-            }}
-          >
-            <Text style={styles.buttonText}>Send To</Text>
-          </TouchableOpacity>
+          <FAB title="" icon={{ name: 'download', color: 'white' }} color="#6e6e6e"></FAB>
+          <FAB title="Stories"  fontWeight= 'bold' color="#6e6e6e"></FAB>
+          <FAB title='Send to' icon={{ name: 'send', color: 'white' }} color="#10A9A1"></FAB>
         </View>
       </View>
     );
@@ -305,7 +301,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
   },
   camera: {

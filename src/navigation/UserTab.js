@@ -48,6 +48,7 @@ export default function UserStack({ route, navigation }) {
   };
 
   const screenOptions = {
+    
     tabBarShowLabel: false,
     headerLeft: () => (
       <Button onPress={handleSignOut} title="Log Out" />
