@@ -103,17 +103,20 @@ export default function CameraScreen({ navigation, focused }) {
     }
   }
 
+
+
+
+
   async function takePhoto() {
     if (cameraRef.current) {
-      // navigation.navigate("SnapScreen")
-      console.log("Taking Phot1o");
+      navigation.navigate("CameraScreenPost");
+
+      console.log("Taking Photo now");
       const options = { quality: 1, base64: true, exif: false };
+      const passPhoto = await cameraRef.current.takePictureAsync(options);
       const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
       setPhoto(newPhoto);
-      console.log("turning that shit #off");
-      xbox = useNavigation();
-      xbox.setOptions({ tabBarStyle: { display: "none" } });
-
+      navigation.navigate("CameraScreenPost", {photo: passPhoto});
       // console.log("This is the photo", newPhoto);
       // This part is to insert URI to "gallery" table
       // console.log(" Before Insert to table!");
@@ -121,9 +124,9 @@ export default function CameraScreen({ navigation, focused }) {
       // //   .from("gallery")
       // //   .insert({ photo: newPhoto.uri });
       // console.log("After Insert to table!");
-      if (error) {
-        console.error("Error inserting photo:", error.message);
-      }
+      // if (error) {
+      //   console.error("Error inserting photo:", error.message);
+      // }
     }
   }
 
@@ -138,7 +141,7 @@ export default function CameraScreen({ navigation, focused }) {
     const sharePic = () => {
       shareAsync(photo.uri).then(() => {
         setPhoto(null);
-        console.log("kill me");
+
         navigation.setOptions({ tabBarStyle: { display: "none" } });
       });
     };
@@ -172,7 +175,7 @@ export default function CameraScreen({ navigation, focused }) {
         <View style={styles.bottomRow}>
           <FAB title="" icon={{ name: 'download', color: 'white' }} color="#6e6e6e"></FAB>
           <FAB title="Stories"  fontWeight= 'bold' color="#6e6e6e"></FAB>
-          <FAB title='Send to' icon={{ name: 'send', color: 'white' }} color="#10A9A1"></FAB>
+          <FAB title='Send to joe' icon={{ name: 'send', color: 'white' }} color="#10A9A1" onPress={() => navigation.navigate('SnapScreen')}></FAB>
         </View>
       </View>
     );

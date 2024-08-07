@@ -4,12 +4,16 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../utils/hooks/supabase";
 import { Modal } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
+
+
+export default function PostcaptureOptions() {
   const insets = useSafeAreaInsets();
   const [action, setAction] = useState("Lead with Compassion");
   const [suggestion, setSuggestion] = useState("It never fails <3");
   const [visible, setVisible] = useState(false);
+ const navigation = useNavigation()
 
   const fetchData = async () => {
 
@@ -39,7 +43,7 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
   return (
     <>
       <View style={[styles.deleteIcon, { marginTop: insets.top }]}>
-        <TouchableOpacity onPress={deletePhoto}>
+        <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
           <Ionicons
             style={styles.textIcon}
             name="close"
@@ -117,7 +121,7 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             color="white"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={deletePhoto}>
+        <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
           <Ionicons
             style={styles.musicIcon}
             name="download-outline"
