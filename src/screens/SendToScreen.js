@@ -36,7 +36,7 @@ export default function SendToScreen() {
       try {
         const { data, error } = await supabase
           .from("profiles")
-          .select("id, username")
+          .select("id, username, avatar_url")
           .limit(8);
 
         if (error) {
@@ -46,9 +46,10 @@ export default function SendToScreen() {
         if (data) {
           setUsersToAdd(
             data.map((user) => ({
-              id: user.id,
-              name: user.username,
-              username: user.username,
+                id: user.id,
+                name: user.username,
+                username: user.username,
+                avatar_url: user.avatar_url,
             }))
           );
           setRecents(data.slice(-10));
@@ -91,7 +92,15 @@ export default function SendToScreen() {
           handleUserClick(item.id);
         }}
       >
-        <Image style={styles.bitmojiImage} source={defaultPhoto} />
+        <Image
+                style={styles.bitmojiImage}
+                source={
+                  item.avatar_url
+                    ? { uri: `${item.avatar_url}` }
+                    : defaultPhoto
+                }
+                onError={(e) => console.log("Error loading image: ", e.nativeEvent.error)}
+              />
         <Text>{item.name}</Text>
         <Ionicons
           style={styles.circleIcon}
@@ -235,7 +244,15 @@ export default function SendToScreen() {
                       handleUserClick(user.id);
                     }}
                   >
-                    <Image style={styles.bitmojiImage} source={defaultPhoto} />
+                    <Image
+                style={styles.bitmojiImage}
+                source={
+                  user.avatar_url
+                    ? { uri: `${user.avatar_url}` }
+                    : defaultPhoto
+                }
+                onError={(e) => console.log("Error loading image: ", e.nativeEvent.error)}
+              />
                     <Text style={styles.bitmojiText}>{user.name}</Text>
                     <Ionicons
                       style={styles.circleIcon}
