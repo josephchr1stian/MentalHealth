@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Dialog, FAB } from "react-native-elements";
@@ -80,6 +80,13 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
         <Text style={styles.suggestion}>{suggestion}</Text>
       </Dialog>
 
+      <ImageBackground
+            style = {styles.pic}
+            source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
+            >
+
+          </ImageBackground>
+
       <View style={styles.iconContainer}>
         {[
           {
@@ -102,7 +109,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
           },
           {
             name: "heart",
-            color: "#68D89B",
+            color: "rgba(0, 0, 0, 0.00)",
             onPress: { handlePress },
             caption: "myWellness",
           },
@@ -165,6 +172,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     fontSize: "16",
+  },
+  pic : {
+    position: 'absolute',
+    left: -3,
+    top: 160,
+    width: 50, // Adjust size as needed
+    height: 50, // Adjust size as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+
   },
     captionWrapper: {
     position: 'absolute', // Position text absolutely

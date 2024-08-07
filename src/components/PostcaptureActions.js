@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../utils/hooks/supabase";
@@ -45,6 +45,7 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             name="close"
             size={35}
             color="white"
+            
           />
         </TouchableOpacity>
       </View>
@@ -79,11 +80,17 @@ export default function PostcaptureOptions({ savePhoto, deletePhoto }) {
             toggleVis();
           }}
         >
+          <ImageBackground
+            style = {styles.pic}
+            source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
+            >
+
+          </ImageBackground>
           <Ionicons
             style={styles.musicIcon}
             name="heart"
             size={30}
-            color="#68D89B"
+            color= "rgba(0, 0, 0, 0.00)"
           />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -189,6 +196,16 @@ const styles = StyleSheet.create({
   },
   pencilIcon: {
     marginTop: 10,
+  },
+  pic : {
+    position: 'absolute',
+    left: -10,
+    top: 11,
+    width: 50, // Adjust size as needed
+    height: 50, // Adjust size as needed
+    justifyContent: 'center',
+    alignItems: 'center',
+
   },
   videoIcon: {
     marginTop: 20,
