@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     height: "85%",
   },
   titleText: {
+    color: "#0da89f",
     textAlign: "center",
     fontSize: 23,
     fontWeight: "bold",
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   button: {
-    backgroundColor: "#3CB2E2",
+    backgroundColor: "#0da89f",
     borderRadius: 30,
     height: 50,
     width: "80%",

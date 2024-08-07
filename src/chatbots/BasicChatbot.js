@@ -8,9 +8,9 @@ import { supabase } from "../utils/hooks/supabase";
 
 const CHATBOT_USER_OBJ = {
   _id: 2,
-  name: "Whisper",
+  name: "MyWellness",
   avatar:
-    "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/ghostFlat.png",
+    "../../assets/snapchat/mywellness.png",
 };
 
 const prompt = [
