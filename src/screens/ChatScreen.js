@@ -156,7 +156,7 @@ export default function ChatScreen({ navigation }) {
         // Pass the function to actions, call it on press for any of the buttons
         updateStreak={updateStreak}
       />
-      <Disclaimer isVisible={disclaimerVisible} onClose={toggleDisclaimer} />
+      <Disclaimer isVisible={disclaimerVisible} setIsVisible={setDisclaimerVisible} onClose={toggleDisclaimer} />
     </View>
   );
 }
