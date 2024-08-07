@@ -81,7 +81,7 @@ export default function ChatScreen({ navigation }) {
       ]}
     >
       <Header title="Chat" />
-      <ChatScreenNavigation chats={chats}/>
+      <ChatScreenNavigation chats={chats} />
 
       <View style={styles.pinnedBotBar}>
         <TouchableOpacity
@@ -93,7 +93,10 @@ export default function ChatScreen({ navigation }) {
           }}
           key={1}
         >
-          <PinnedBotBitmoji name={"MyAI"}></PinnedBotBitmoji>
+          <PinnedBotBitmoji
+            name={"MyAI"}
+            imgSource={require("../../assets/snapchat/myai.jpg")}
+          ></PinnedBotBitmoji>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
           <PinnedBotBitmoji
@@ -133,10 +136,7 @@ export default function ChatScreen({ navigation }) {
             />
           </TouchableOpacity>
         ))} */}
-        <ScrollView
-          horizontal={false}
-          showsHorizontalScrollIndicator={false}
-        >
+        <ScrollView horizontal={false} showsHorizontalScrollIndicator={false}>
           <LoadingChats navigation={navigation} />
         </ScrollView>
       </View>
@@ -164,7 +164,11 @@ export default function ChatScreen({ navigation }) {
         // Pass the function to actions, call it on press for any of the buttons
         updateStreak={updateStreak}
       />
-      <Disclaimer isVisible={disclaimerVisible} setIsVisible={setDisclaimerVisible} onClose={toggleDisclaimer} />
+      <Disclaimer
+        isVisible={disclaimerVisible}
+        setIsVisible={setDisclaimerVisible}
+        onClose={toggleDisclaimer}
+      />
     </View>
   );
 }
@@ -216,5 +220,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 4,
   },
-  
 });
