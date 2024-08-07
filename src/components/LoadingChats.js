@@ -13,25 +13,6 @@ export default function LoadingChats({ navigation }) {
   const [currentChats, setCurrentChats] = useState([]);
 
   useEffect(() => {
-    async function fetchCurrentChats() {
-      try {
-        const { data, error } = await supabase
-          .from("Chats")
-          .select("id, isChatBot, correspondent_id")
-          .eq("user_id", user.id);
-        if (error) {
-          console.error("Error getting current chats:", error.message);
-          return;
-        }
-        console.log({ data });
-        if (data) {
-          setCurrentChats(data);
-        }
-      } catch (error) {
-        console.error("Error getting current chats:", error.message);
-      }
-    }
-
     async function fetchUsers() {
       try {
         const { data, error } = await supabase
@@ -58,30 +39,8 @@ export default function LoadingChats({ navigation }) {
       }
     }
 
-    async function fetchCurrentFriends() {
-      try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("friend_ids")
-          .eq("id", user.id)
-          .single();
-
-        if (error) {
-          console.error("Error fetching current friends:", error.message);
-          return;
-        }
-        if (data) {
-          setCurrentFriends(data.friend_ids || []);
-        }
-      } catch (error) {
-        console.error("Error fetching current friends:", error.message);
-      }
-    }
-
     if (user) {
-      fetchCurrentFriends();
       fetchUsers();
-      fetchCurrentChats();
     }
   }, [user]);
 
