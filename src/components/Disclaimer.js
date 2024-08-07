@@ -20,22 +20,22 @@ export default function Disclaimer({ isVisible, setIsVisible, onClose }) {
         Here's what you should know from MyWellness:
       </Text>
       <Text style={styles.disclaimerText}>
-        This is built on generative Al language models.While we strive for
+      • This is built on generative Al language models.While we strive for
         accuracy and quality, please note that the information provided may not
         be entirely error-free or up-to-date.
       </Text>
 
       <Text style={styles.disclaimerText}>
-        We recommend independently verifying the content and consulting with
+      • We recommend independently verifying the content and consulting with
         professionals for specific advice or information.
       </Text>
 
       <Text style={styles.disclaimerText}>
-        We do not assume any responsibility or liability for the use or
+      • We do not assume any responsibility or liability for the use or
         interpretation of this content.
       </Text>
       <Text style={styles.disclaimerText}>
-        MyWellness content, information, comments, opinions, advice or guidance,
+      • MyWellness content, information, comments, opinions, advice or guidance,
         programs and activities do not constitute medical or legal advice and
         are not intended to be relied upon to cure, diagnose or treat any mental
         or physical health condition.
