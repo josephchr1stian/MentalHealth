@@ -5,7 +5,6 @@ import defaultPhoto from "../../assets/snapchat/defaultprofile.png";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 export default function LoadingChats({ navigation }) {
   const [usersToAdd, setUsersToAdd] = useState([]);
@@ -19,7 +18,7 @@ export default function LoadingChats({ navigation }) {
         const { data, error } = await supabase
           .from("Chats")
           .select("id, isChatBot, correspondent_id")
-          .where({ user_id: user.id });
+          .eq("user_id", user.id);
         if (error) {
           console.error("Error getting current chats:", error.message);
           return;
@@ -37,7 +36,7 @@ export default function LoadingChats({ navigation }) {
       try {
         const { data, error } = await supabase
           .from("profiles")
-          .select("id, username");
+          .select("id, username, avatar_url");
 
         if (error) {
           console.error("Error fetching users:", error.message);
@@ -49,6 +48,7 @@ export default function LoadingChats({ navigation }) {
               id: user.id,
               name: user.username,
               username: user.username,
+              avatar_url: user.avatar_url,
             }))
           );
           console.log(data);
@@ -86,7 +86,7 @@ export default function LoadingChats({ navigation }) {
   }, [user]);
 
   async function getChat(correspondent_id) {
-    for (chat in currentChats) {
+    for (const chat of currentChats) {
       if (correspondent_id === chat.correspondent_id) {
         return chat.id;
       }
@@ -122,7 +122,15 @@ export default function LoadingChats({ navigation }) {
               }}
               key={index}
             >
-              <Image style={styles.bitmojiImage} source={defaultPhoto} />
+              <Image
+                style={styles.bitmojiImage}
+                source={
+                  user.avatar_url
+                    ? { uri: `${user.avatar_url}` }
+                    : defaultPhoto
+                }
+                onError={(e) => console.log("Error loading image: ", e.nativeEvent.error)}
+              />
               <Text style={styles.bitmojiText}>{user.name}</Text>
               <Ionicons
                 style={styles.userCamera}
