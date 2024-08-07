@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Image,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
@@ -95,7 +96,7 @@ export default function ChatScreen({ navigation }) {
         <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
           <PinnedBotBitmoji
             name={"myWellness"}
-            imgSource={require("../../assets/snapchat/ghostFlat.png")}
+            imgSource={require("../../assets/snapchat/mywellness.png")}
             streak={streak} // State Variable we can update
           ></PinnedBotBitmoji>
         </TouchableOpacity>
@@ -140,8 +141,13 @@ export default function ChatScreen({ navigation }) {
       <FAB //initiatives button
         style={styles.addButton}
         visible={true}
-        icon={{ name: "star", color: "white" }}
-        color="#FF3386"
+        icon={() => (
+          <Image
+            source={require("../../assets/snapchat/snapdaily.png")}
+            style={styles.fabImage}
+          />
+        )}
+        color="#0da89f"
         onPress={toggleActions}
       />
       <FAB
@@ -156,7 +162,7 @@ export default function ChatScreen({ navigation }) {
         // Pass the function to actions, call it on press for any of the buttons
         updateStreak={updateStreak}
       />
-      <Disclaimer isVisible={disclaimerVisible} onClose={toggleDisclaimer} />
+      <Disclaimer isVisible={disclaimerVisible} setIsVisible={setDisclaimerVisible} onClose={toggleDisclaimer} />
     </View>
   );
 }
@@ -207,4 +213,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 4,
   },
+  
 });
