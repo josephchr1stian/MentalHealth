@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   FlatList,
+  ImageBackground,
 } from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import { Dialog } from "@rneui/themed";
@@ -14,7 +15,6 @@ import { Button, FAB } from "react-native-elements";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import LinearGradient from "react-native-linear-gradient";
 
 export default function Actions({ isVisible, onClose, updateStreak }) {
   const [title, setTitle] = useState("");
@@ -58,46 +58,62 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
       isVisible={isVisible}
       onBackdropPress={onClose}
     >
-      <LinearGradient
-        colors={["#4c669f", "#3b5998", "#192f6a"]} // Customize your gradient colors
-        style={styles.gradient}
-      >
-        <Text style={styles.eventText}>Snap Daily</Text>
+      <View style={styles.wind}>
+        <ImageBackground
+          style={styles.backgroundImage}
+          source={{
+            uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/SnapInitiatives Pop Up.png",
+          }}
+        ></ImageBackground>
+
+        <Text style={styles.eventText}>Daily Snaps</Text>
         <Text style={styles.text}>A place to grow healthy minds.</Text>
-        <View>
-          <FlatList
-            style={styles.listFrame}
-            data={actions}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                onPress={() => handleThat(updateStreak, onClose)}
-                style={styles.button}
-              >
-                <View style={styles.inline}>
-                  <Text style={styles.emoji}>{item.prompts.emoji}</Text>
-                  <Text style={styles.prompt}>{item.prompts.prompt}</Text>
-                  <Ionicons
-                    style={styles.arrowIcon}
-                    name="chevron-forward"
-                    size={24}
-                    color="grey"
-                  />
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
-      </LinearGradient>
+        <FlatList
+          style={styles.listFrame}
+          data={actions}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => handleThat(updateStreak, onClose)}
+              style={styles.button}
+            >
+              <View style={styles.inline}>
+                <Text style={styles.emoji}>{item.prompts.emoji}</Text>
+                <Text style={styles.prompt}>{item.prompts.prompt}</Text>
+                <Ionicons
+                  style={styles.arrowIcon}
+                  name="chevron-forward"
+                  size={24}
+                  color="#10A9A1"
+                />
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
     </Dialog>
   );
 }
 
 const styles = StyleSheet.create({
   Frame: {
-    borderRadius: 20,
+    borderRadius: 25,
     height: "45%",
     width: "90%",
+    backgroundColor: "red",
+  },
+  backgroundImage: {
+    flex: 1,
+    position: "absolute",
+    resizeMode: "cover",
+    top: -40,
+    left: -32,
+    width: 410,
+    height: 460,
+    padding: 10,
+    overflow: 'hidden',
+    justifyContent: "center",
+    borderRadius: 20,
   },
   eventText: {
     textAlign: "center",
@@ -106,10 +122,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "#10A9A1",
   },
-  gradient: {
-    flex: 1, // Makes the gradient cover the entire area of the dialog
-    borderRadius: 10, // Adjust if necessary
-    padding: 10, // Adjust as needed
+  wind: {
+    height: "100%",
+    width: "100%",
+
   },
   text: {
     textAlign: "center",
@@ -119,9 +135,10 @@ const styles = StyleSheet.create({
     color: "#10A9A1",
   },
   listFrame: {
-    shadowRadius: 5,
-    shadowColor: "black",
-    backgroundColor: "red",
+    backgroundColor: "white",
+    borderRadius: 20,
+    left: -12,
+    width: 370,
   },
   Select: {
     borderColor: "#d9d9d9",

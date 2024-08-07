@@ -54,7 +54,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
     if (icon === "heart") {
       console.log("heart clicked");
       setVisible(!visible);
-      // setPressedIcon(!pressedIcon)
+      
     }
   };
 
@@ -70,15 +70,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
 
   return (
     <View style={[styles.cameraOptions, { marginTop: insets.top }]}>
-      <Dialog
-        overlayStyle={styles.suggest}
-        isVisible={visible}
-        onBackdropPress={() => closeBoth()}
-        backdropStyle={styles.backdrop}
-      >
-        <Text style={styles.action}>{action}</Text>
-        <Text style={styles.suggestion}>{suggestion}</Text>
-      </Dialog>
+
 
       <ImageBackground
             style = {styles.pic}
@@ -143,6 +135,14 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
           </TouchableOpacity>
         ))}
       </View>
+      {visible && (
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.action}>{action}</Text>
+              <Text style={styles.suggestion}>{suggestion}</Text>
+            </View>
+          </View>
+        )}
     </View>
   );
 }
@@ -190,7 +190,21 @@ const styles = StyleSheet.create({
     padding: 5, // Padding around text
     zIndex: 1, // Ensure text is on top
   },
-
+  modalContainer: {
+    position: "absolute",
+    top: 600,
+    width: 400,
+    flex: 1,
+    left: -363,
+    backgroundColor: "rgba(0, 0, 0, 0.0)", // Slightly darkened background
+  },
+  modalContent: {
+    backgroundColor: "#10A9A199",
+    borderRadius: 20,
+    padding: 20,
+    width: "100%",
+    alignItems: "center",
+  },
   suggest: {
     position: "absoloute",
     top: 200,

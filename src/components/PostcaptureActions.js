@@ -185,10 +185,10 @@ const styles = StyleSheet.create({
     width: 400,
     flex: 1,
     left: -363,
-    backgroundColor: "rgba(0, 0, 0, 0.0)", // Slightly darkened background
+    backgroundColor: "#10A9A11 ", // Slightly darkened background
   },
   modalContent: {
-    backgroundColor: "rgba(52, 52, 52, 0.9)",
+    backgroundColor: "	#10A9A11 ",
     borderRadius: 10,
     padding: 20,
     width: "100%",

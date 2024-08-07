@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Modal,
+  ImageBackground,
   Pressable,
 } from "react-native";
 import { useEffect, useRef, useState } from "react";
@@ -59,17 +60,9 @@ export default function CameraScreenPost({ route }) {
         },
       ]}
     >
-      <Image
-        style={facing === "front" ? styles.frontPreview : styles.preview}
-        //source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-        // We don't need that base64 thing, just uri is good
-        // source={{ uri: photo1.uri }}
-        source={{ uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" }}
-      />
-      <Text position={{ top: 100, right: 40 }}>
-        {" "}
-        This is a new screen why nav.....{" "}
-      </Text>
+   <ImageBackground source={{uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png"}} style={styles.pic}>
+   </ImageBackground>
+ 
 
       <PostcaptureOptions></PostcaptureOptions>
       <View style={styles.bottomRow}>
@@ -79,9 +72,13 @@ export default function CameraScreenPost({ route }) {
           icon={{ name: "download", color: "white" }}
           color="#6e6e6e"
         ></FAB>
-        <FAB title="Stories" fontWeight="bold" color="#6e6e6e"></FAB>
+        <FAB title="Stories"
+        titleStyle = {{fontWeight : 'bold',}}
+        
+        fontWeight="bold" color="#6e6e6e"></FAB>
         <FAB
           title="Send to"
+          titleStyle = {{fontWeight : 'bold',}}
           icon={{ name: "send", color: "white" }}
           color="#10A9A1"
           onPress={() => navigation.navigate("SnapScreen")}
@@ -95,12 +92,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
+    height: 900,
   },
   bottomRow: {
     position: "absolute",
     bottom: 0,
     width: "100%",
-    height: "8%",
+    height: "10%",
     flexDirection: "row",
     backgroundColor: "#333333",
     justifyContent: "space-around", // Space buttons evenly
@@ -148,8 +146,12 @@ const styles = StyleSheet.create({
     width: "20%",
   },
   preview: {
+    top: -80,
     flex: 1,
     borderRadius: 16,
+    width: 450,
+    height: 350,
+    resizeMode: 'stretch'
   },
   frontPreview: {
     flex: 1,
@@ -181,6 +183,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     elevation: 3,
     backgroundColor: "#2196F3",
+  },
+  pic: {
+    
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: '100%', // Adjust size as needed
+    height: '105%', // Adjust size as needed
+    justifyContent: "center",
+    alignItems: "center",
   },
   closeButtonStyle: {
     alignItems: "center",
