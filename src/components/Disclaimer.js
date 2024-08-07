@@ -3,9 +3,11 @@ import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { supabase } from "../utils/hooks/supabase";
 import { Dialog } from "@rneui/themed";
+import { useNavigation } from "@react-navigation/native";
 import masielquestion from "../../assets/snapchat/masielquestion.png";
 
-export default function Disclaimer({ isVisible, onClose }) {
+export default function Disclaimer({ isVisible, setIsVisible, onClose }) {
+    const navigation = useNavigation();
   return (
     <Dialog
       overlayStyle={styles.DialogueBox}
@@ -13,7 +15,7 @@ export default function Disclaimer({ isVisible, onClose }) {
       onBackdropPress={onClose}
     >
       <Text style={styles.titleText}>Oh hey! It's MyWellness</Text>
-      <Image style={styles.masielquestion} source={masielquestion} />
+      <Image style={styles.masielquestion} source={masielquestion} resizeMode="contain"/>
       <Text style={styles.disclaimerHeadText}>
         Here's what you should know from MyWellness:
       </Text>
@@ -39,7 +41,17 @@ export default function Disclaimer({ isVisible, onClose }) {
         or physical health condition.
       </Text>
 
-      <TouchableOpacity onPress={onClose} style={styles.button}>
+      <TouchableOpacity  style={styles.button}
+      onPress={() => {
+        setIsVisible(false);
+
+        navigation.navigate("Conversation", {
+          isChatbot: false,
+          chatId: 1,
+        },);
+        
+      }}
+      key={1}>
         <Text style={styles.buttonText}>Start Chat</Text>
       </TouchableOpacity>
     </Dialog>
@@ -61,7 +73,7 @@ const styles = StyleSheet.create({
   disclaimerText: {
     textAlign: "left",
     fontSize: 15,
-    marginBottom: 10,
+    marginBottom: 5,
     marginLeft: 15,
     marginRight: 15,
   },
@@ -90,7 +102,8 @@ const styles = StyleSheet.create({
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: 15,
-    width: "25%",
-    height: "25%",
+    width: "60%", // Adjust the width to a larger percentage
+    height: undefined,
+    aspectRatio: 1, // Maintains aspect ratio of pic
   },
 });
