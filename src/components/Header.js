@@ -69,7 +69,7 @@ export default function Header({ title }) {
             navigation.navigate("Profile");
           }}
         >
-          <Image style={styles.profileImage} source={{ uri: profilePicUrl }} />
+          <Image style={styles.profileImage} source={require("../../assets/snapchat/masiel.jpg")} />
         </Pressable>
         <Pressable
           style={[styles.search, styles.buttons]}

@@ -29,7 +29,7 @@ export default function ProfileScreen() {
   return (
     <View style={{ alignItems: "center" }}>
       <Image
-        source={{ uri: "https://i.imgur.com/FxsJ3xy.jpg" }}
+        source={require("../../assets/snapchat/masiel.jpg")}
         style={{ width: 150, height: 150, borderRadius: 150 / 2 }}
       />
       <Text style={{ justifyContents: "center" }}>User Name Would Go Here</Text>

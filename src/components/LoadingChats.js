@@ -15,24 +15,23 @@ export default function LoadingChats({ navigation }) {
 
   useEffect(() => {
     async function fetchCurrentChats() {
-        try {
-            const {data, error} = await supabase
-                .from("Chats")
-                .select("id, isChatBot, correspondent_id")
-                .where({user_id: user.id})
-            if (error) {
-                console.error("Error getting current chats:", error.message);
-                return;
-                }   
-                console.log({data})
-                if (data) {
-                    setCurrentChats(data)
-                }
-        } catch (error) {
-            console.error("Error getting current chats:", error.message);
-          }
+      try {
+        const { data, error } = await supabase
+          .from("Chats")
+          .select("id, isChatBot, correspondent_id")
+          .where({ user_id: user.id });
+        if (error) {
+          console.error("Error getting current chats:", error.message);
+          return;
+        }
+        console.log({ data });
+        if (data) {
+          setCurrentChats(data);
+        }
+      } catch (error) {
+        console.error("Error getting current chats:", error.message);
+      }
     }
-
 
     async function fetchUsers() {
       try {
@@ -88,18 +87,18 @@ export default function LoadingChats({ navigation }) {
 
   async function getChat(correspondent_id) {
     for (chat in currentChats) {
-        if (correspondent_id === chat.correspondent_id) {
-            return chat.id
-        }
+      if (correspondent_id === chat.correspondent_id) {
+        return chat.id;
+      }
     }
     try {
       const { data, error } = await supabase
         .from("Chats")
         .insert({ correspondent_id: correspondent_id, user_id: user.id })
-        .select("id")
-        if (error) {
-            console.log(error, "THis is line 74")
-        }
+        .select("id");
+      if (error) {
+        console.log(error, "THis is line 74");
+      }
       return data.id;
     } catch (error) {
       console.error("Error creating chat", error.message);

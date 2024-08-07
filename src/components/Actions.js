@@ -58,6 +58,7 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
       onBackdropPress={onClose}
     >
       <Text style={styles.eventText}>Snap Daily</Text>
+      <Text style={styles.text}>A place to grow healthy minds.</Text>
       <FlatList
         style={{ backgroundColor: "white" }}
         data={actions}
@@ -92,8 +93,14 @@ const styles = StyleSheet.create({
   },
   eventText: {
     textAlign: "center",
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: "bold",
+    marginBottom: 20,
+  },
+  text: {
+    textAlign: "center",
+    fontSize: 15,
+    //fontWeight: "bold",
     marginBottom: 20,
   },
   Select: {

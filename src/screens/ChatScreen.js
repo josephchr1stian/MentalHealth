@@ -14,6 +14,7 @@ import { FAB } from "@rneui/themed";
 import Header from "../components/Header";
 import { CHATBOTS } from "./ConversationScreen";
 import LoadingChats from "../components/LoadingChats";
+import ChatScreenNavigation from "../components/ChatScreenNavigation";
 
 import Actions from "../components/Actions";
 import PinnedBotBitmoji from "../components/PinnedBotBitmoji";
@@ -80,6 +81,7 @@ export default function ChatScreen({ navigation }) {
       ]}
     >
       <Header title="Chat" />
+      <ChatScreenNavigation chats={chats}/>
 
       <View style={styles.pinnedBotBar}>
         <TouchableOpacity
@@ -208,6 +210,7 @@ const styles = StyleSheet.create({
     right: 20,
   },
   pinnedBotBar: {
+    marginTop: 10,
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
