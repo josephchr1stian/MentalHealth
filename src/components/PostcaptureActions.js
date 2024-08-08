@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
   gradient:{
     position: "absolute",
     left: -20,
-    top: -300,
+    top: -400,
     width: 480, // Adjust size as needed
     height: 600, // Adjust size as needed
     resizeMode: 'cover',
@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
   },
   suggestion: {
     color: "white",
+    top: -70,
     fontSize: 40,
     fontWeight: "bold",
   },

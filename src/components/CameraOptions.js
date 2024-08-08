@@ -8,7 +8,7 @@ import { supabase } from "../utils/hooks/supabase";
 export default function CameraOptions({ flipCamera, switchFlash }) {
   const [flashState, setFlashState] = useState("flash-off-outline");
   const insets = useSafeAreaInsets();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [action, setAction] = useState("Lead with Compassion");
   const [suggestion, setSuggestion] = useState("It never fails <3");
   const [pressedIcon, setPressedIcon] = useState(null);
@@ -61,7 +61,6 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   function closeBoth() {
     setVisible(false);
     handlePress('heart');
-
   }
 
   useEffect(() => {
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
   gradient:{
     position: "absolute",
     left: -20,
-    top: -300,
+    top: -400,
     width: 480, // Adjust size as needed
     height: 600, // Adjust size as needed
     resizeMode: 'cover',
@@ -239,7 +238,7 @@ const styles = StyleSheet.create({
   },
   suggestion: {
     color: "white",
-    top: 20,
+    top: -40,
     fontSize: 36,
     fontWeight: "bold",
   },
