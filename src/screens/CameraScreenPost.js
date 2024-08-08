@@ -60,7 +60,7 @@ export default function CameraScreenPost({ route }) {
         },
       ]}
     >
-   <ImageBackground source={{uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png"}} style={styles.pic}>
+   <ImageBackground source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Mask group.png"}} style={styles.pic}>
    </ImageBackground>
  
 
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
     left: 0,
     top: 0,
     width: '100%', // Adjust size as needed
-    height: '105%', // Adjust size as needed
+    height: '101%', // Adjust size as needed
     justifyContent: "center",
     alignItems: "center",
   },

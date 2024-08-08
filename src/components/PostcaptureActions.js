@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { supabase } from "../utils/hooks/supabase";
 import { Modal } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-
-
 export default function PostcaptureOptions() {
   const insets = useSafeAreaInsets();
   const [action, setAction] = useState("Lead with Compassion");
   const [suggestion, setSuggestion] = useState("It never fails <3");
-  const [visible, setVisible] = useState(false);
- const navigation = useNavigation()
+  const [visible, setVisible] = useState(true);
+  const navigation = useNavigation();
 
   const fetchData = async () => {
-
     try {
       const { data, error } = await supabase
         .from("allPrompt")
@@ -35,7 +39,6 @@ export default function PostcaptureOptions() {
 
   function toggleVis() {
     setVisible(!visible);
-
   }
   useEffect(() => {
     fetchData();
@@ -43,13 +46,12 @@ export default function PostcaptureOptions() {
   return (
     <>
       <View style={[styles.deleteIcon, { marginTop: insets.top }]}>
-        <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
           <Ionicons
             style={styles.textIcon}
             name="close"
             size={35}
             color="white"
-            
           />
         </TouchableOpacity>
       </View>
@@ -85,10 +87,11 @@ export default function PostcaptureOptions() {
           }}
         >
           <Image
-          style = {styles.pic}
-          source={{uri:'/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}>
-
-          </Image>
+            style={styles.pic}
+            source={{
+              uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png",
+            }}
+          ></Image>
           {/* <ImageBackground
             style = {styles.pic}
             source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
@@ -99,7 +102,7 @@ export default function PostcaptureOptions() {
             style={styles.musicIcon}
             name="heart"
             size={30}
-            color= "rgba(0, 0, 0, 0.00)"
+            color="rgba(0, 0, 0, 0.00)"
           />
         </TouchableOpacity>
         <TouchableOpacity>
@@ -126,7 +129,7 @@ export default function PostcaptureOptions() {
             color="white"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Camera')}>
+        <TouchableOpacity onPress={() => navigation.navigate("Camera")}>
           <Ionicons
             style={styles.musicIcon}
             name="download-outline"
@@ -136,8 +139,17 @@ export default function PostcaptureOptions() {
         </TouchableOpacity>
         {visible && (
           <View style={styles.modalContainer}>
+            
             <View style={styles.modalContent}>
-              <Text style={styles.action}>{action}</Text>
+ 
+              <ImageBackground
+                style={styles.gradient}
+                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+              />
+               <ImageBackground
+                style={styles.gradient}
+                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+              />
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>
           </View>
@@ -164,6 +176,17 @@ const styles = StyleSheet.create({
     width: 40,
     padding: 5,
   },
+  gradient:{
+    position: "absolute",
+    left: -20,
+    top: -300,
+    width: 480, // Adjust size as needed
+    height: 600, // Adjust size as needed
+    resizeMode: 'cover',
+    tintColor: '#000000',
+    justifyContent: "center",
+    alignItems: "center",
+  },
   suggest: {
     position: "absoloute",
     top: 200,
@@ -181,17 +204,17 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     position: "absolute",
-    top: 600,
+    top: 630,
     width: 400,
     flex: 1,
     left: -363,
-    backgroundColor: "#10A9A11 ", // Slightly darkened background
+     // Slightly darkened background
   },
   modalContent: {
-    backgroundColor: "	#10A9A11 ",
     borderRadius: 10,
     padding: 20,
-    width: "100%",
+    left: -20,
+    width: "110%",
     alignItems: "center",
   },
   action: {
@@ -201,20 +224,20 @@ const styles = StyleSheet.create({
   },
   suggestion: {
     color: "white",
-    fontSize: 14,
+    fontSize: 40,
+    fontWeight: "bold",
   },
   pencilIcon: {
     marginTop: 10,
   },
-  pic : {
-    position: 'absolute',
+  pic: {
+    position: "absolute",
     left: -10,
     top: 11,
     width: 50, // Adjust size as needed
     height: 50, // Adjust size as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-
+    justifyContent: "center",
+    alignItems: "center",
   },
   videoIcon: {
     marginTop: 20,
