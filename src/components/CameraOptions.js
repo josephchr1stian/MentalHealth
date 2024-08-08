@@ -138,13 +138,18 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
             <ImageBackground
+                style={styles.ring}
+                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/RING.png"}}
+              />
+              
+            <ImageBackground
                 style={styles.gradient}
                 source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
               />
-               <ImageBackground
+               {/* <ImageBackground
                 style={styles.gradient}
                 source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
-              />
+              /> */}
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>
           </View>
@@ -168,6 +173,18 @@ const styles = StyleSheet.create({
     top: -20,
     justifyContent: "center", // Center the icon vertically
     alignItems: "center", // Center the icon horizontally
+  },
+  ring: {
+    position: "absolute",
+    left: 172,
+    top: 62,
+    width: 88, // Adjust size as needed
+    height: 88, // Adjust size as needed
+    resizeMode: 'cover',
+    tintColor: '#000000',
+    justifyContent: "center",
+    alignItems: "center",
+
   },
   iconRow: {
     marginTop: 20,
@@ -241,6 +258,8 @@ const styles = StyleSheet.create({
     top: -40,
     fontSize: 36,
     fontWeight: "bold",
+    textShadowColor: 'black',
+    textShadowRadius: 10,
   },
 
   expanded: {

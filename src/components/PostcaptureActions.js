@@ -18,6 +18,7 @@ export default function PostcaptureOptions() {
   const [action, setAction] = useState("Lead with Compassion");
   const [suggestion, setSuggestion] = useState("It never fails <3");
   const [visible, setVisible] = useState(true);
+  const [textVis, setTextVis] = useState(false);
   const navigation = useNavigation();
 
   const fetchData = async () => {
@@ -56,7 +57,11 @@ export default function PostcaptureOptions() {
         </TouchableOpacity>
       </View>
       <View style={[styles.cameraOptions, { marginTop: insets.top }]}>
-        <TouchableOpacity>
+        <TouchableOpacity
+         onPress={() => {
+          setTextVis(!textVis);
+        }}
+        >
           <Ionicons
             style={styles.textIcon}
             name="text-outline"
@@ -146,12 +151,17 @@ export default function PostcaptureOptions() {
                 style={styles.gradient}
                 source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
               />
-               <ImageBackground
+               {/* <ImageBackground
                 style={styles.gradient}
                 source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
-              />
+              /> */}
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>
+          </View>
+        )}
+         {textVis && (
+          <View style={styles.textBanner}>
+            <Text style= {styles.textInBan}>                        Miss u bestie {'<'}3!!!</Text>
           </View>
         )}
       </View>
@@ -192,9 +202,28 @@ const styles = StyleSheet.create({
     top: 200,
     backgroundColor: "rgba(52, 52, 52, 0.0)",
     width: "90%",
+    
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.01)",
+  },
+  textBanner: {
+    position: 'absolute',
+    backgroundColor : 'rgba(32, 31, 32, 0.7)',
+    width: 'auto',
+    left: -380,
+    width:450,
+    height: 35,
+    top: 440,
+    
+
+  },
+  textInBan: {
+    color: 'white',
+    justifyContent: 'center',
+    fontSize: 20,
+    marginTop: 5,
+
   },
   textIcon: {
     marginTop: 10,
@@ -227,6 +256,8 @@ const styles = StyleSheet.create({
     top: -70,
     fontSize: 40,
     fontWeight: "bold",
+    textShadowColor: 'black',
+    textShadowRadius: 10,
   },
   pencilIcon: {
     marginTop: 10,
