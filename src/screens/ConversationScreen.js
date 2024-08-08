@@ -8,6 +8,7 @@ import { supabase } from "../utils/hooks/supabase";
 import { GiftedChat } from "react-native-gifted-chat";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
 import MyAi from "../chatbots/MyAi";
+import Actions from "../components/Actions";
 
 export const CHATBOTS = {
   "BasicChatbot": {
@@ -29,7 +30,10 @@ export default function ConversationScreen({ route, navigation }) {
   const [messages, setMessages] = useState([]);
 
   return (
+   
     <SafeAreaView style={styles.container}>
+{/*        
+      <Actions isVisible= {true}/> */}
       <BasicChatbot />
     </SafeAreaView>
   );
