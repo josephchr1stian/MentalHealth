@@ -28,6 +28,7 @@ export default function PinnedBotBitmoji({name="defualtName", streak = {} , imgS
       <Image
         style={styles.bitmojiImage}
         source={imgSource}
+        
 
       />
       <View style={styles.bitmojiTextContainer}>
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
   },
   bitmojiText: {
     alignSelf: "center",
-    fontSize: 12,
+    fontSize: 16,
     fontWeight: "700",
   },
   usernameText: {

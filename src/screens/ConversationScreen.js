@@ -5,6 +5,8 @@ import { useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context"
 import UserChat from "../components/UserChat";
 import BasicChatbot from "../chatbots/BasicChatbot";
 import { useAuthentication } from "../utils/hooks/useAuthentication";
+import MyAi from "../chatbots/MyAi";
+import Actions from "../components/Actions";
 
 export const CHATBOTS = {
   "BasicChatbot": {

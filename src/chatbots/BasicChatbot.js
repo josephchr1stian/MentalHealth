@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { GiftedChat } from "react-native-gifted-chat";
+import { Actions, GiftedChat } from "react-native-gifted-chat";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, SafeAreaView, Platform } from "react-native";
 import defaultProfileImage from "../../assets/snapchat/defaultprofile12.png";
 import { getChat } from "../utils/hooks/getChatGPT";
 import { supabase } from "../utils/hooks/supabase";
+
 
 const CHATBOT_USER_OBJ = {
   _id: 2,
@@ -122,6 +123,7 @@ export default function BasicChatbot() {
   }, []);
 
   return (
+  
     <GiftedChat
       messages={messages}
       onSend={(messages) => {
@@ -134,5 +136,6 @@ export default function BasicChatbot() {
       }}
       renderUsernameOnMessage={true}
     />
+
   );
 }

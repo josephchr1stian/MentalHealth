@@ -13,11 +13,15 @@ import { CameraView, CameraType, useCameraPermissions } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
 import { shareAsync } from "expo-sharing";
 import * as ImagePicker from "expo-image-picker";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBar,
+  useBottomTabBarHeight,
+} from "@react-navigation/bottom-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CameraActions from "../components/CameraActions";
 import CameraOptions from "../components/CameraOptions";
 import PostcaptureOptions from "../components/PostcaptureActions";
+import { useNavigation } from "@react-navigation/native";
 // Add supabase to store:
 import { supabase } from "../utils/hooks/supabase";
 import CameraGalleryMenu from "../components/CameraGalleryMenu";
@@ -25,6 +29,7 @@ import { Button, FAB } from "react-native-elements";
 import { ListItem } from "@rneui/themed";
 import { Overlay } from "react-native-elements";
 import { Icon } from "@rneui/themed";
+import { ImageBackground } from "react-native";
 
 export default function CameraScreen({ navigation, focused }) {
   const tabBarHeight = useBottomTabBarHeight();
@@ -40,6 +45,7 @@ export default function CameraScreen({ navigation, focused }) {
   const [showGalleryMenu, setShowGalleryMenu] = useState(false);
 
   const [sending, setSending] = useState(false);
+  const nav2 = useNavigation();
 
   useEffect(() => {
     (async () => {
@@ -100,24 +106,22 @@ export default function CameraScreen({ navigation, focused }) {
 
   async function takePhoto() {
     if (cameraRef.current) {
-      // navigation.navigate("SnapScreen")
+      navigation.navigate("CameraScreenPost");
 
-      console.log("Taking Phot1o");
+      console.log("Taking Photo now");
       const options = { quality: 1, base64: true, exif: false };
-      const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
-      setPhoto(newPhoto);
-      // console.log("This is the photo", newPhoto);
-      // This part is to insert URI to "gallery" table
-      console.log(" Before Insert to table!");
+      const passPhoto = await cameraRef.current.takePictureAsync(options);
+      // const newPhoto = { uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png" };
+      setPhoto(passPhoto);
       const { error } = await supabase
         .from("gallery")
-        .insert({ photo: newPhoto.uri });
+        .insert({ photo: passPhoto.uri });
       console.log("After Insert to table!");
       if (error) {
         console.error("Error inserting photo:", error.message);
       }
-      // This part is to store images in a folder bucket named "pictureStorage"
-      //uploadImage(newPhoto.uri);
+      console.log(passPhoto);
+      navigation.navigate("CameraScreenPost", { photo: passPhoto });
     }
   }
 
@@ -128,59 +132,58 @@ export default function CameraScreen({ navigation, focused }) {
   }
 
   // There is a photo
-  if (photo) {
-    const sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(null);
-      });
-    };
+  // if (photo) {
+  //   const sharePic = () => {
+  //     shareAsync(photo.uri).then(() => {
+  //       setPhoto(null);
 
-    // If there is a photo taken we see this
+  //       navigation.setOptions({ tabBarStyle: { display: "none" } });
+  //     });
+  //   };
 
-    return (
-      <View
-        style={[
-          styles.container,
-          {
-            marginBottom: tabBarHeight,
-            paddingTop: insets.top,
-            // backgroundColor: 'orange',
-            paddingBottom: insets.bottom,
-          },
-        ]}
-      >
-        <Image
-          style={facing === "front" ? styles.frontPreview : styles.preview}
-          //source={{ uri: "data:image/jpg;base64," + photo.base64 }}
-          // We don't need that base64 thing, just uri is good
-          source={{ uri: photo.uri }}
-        />
-        {hasMediaLibraryPermission && (
-          <PostcaptureOptions
-            deletePhoto={() => setPhoto(null)}
-            savePhoto={savePhoto}
-          />
-        )}
-        <View style={styles.bottomRow}>
-          <TouchableOpacity
-            style={[styles.save, { backgroundColor: "#6e6e6e" }]}
-            onPress={() => { }}
-          >
-            <Text style={styles.buttonText}>Stories</Text>
-          </TouchableOpacity>
+  //   // If there is a photo taken we see this
 
-          <TouchableOpacity
-            style={[styles.sendTo, { backgroundColor: "#00000" }]}
-            onPress={() => {
-              navigation.navigate("SnapScreen");
-            }}
-          >
-            <Text style={styles.buttonText}>Send To</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
+  //   return (
+  //     <View
+  //       style={[
+  //         styles.container,
+  //         {
+  //           marginBottom: tabBarHeight,
+  //           paddingTop: insets.top,
+  //           // backgroundColor: 'orange',
+  //           paddingBottom: insets.bottom,
+  //         },
+  //       ]}
+  //     >
+  //       <Image
+  //         style={facing === "front" ? styles.frontPreview : styles.preview}
+  //         //source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+  //         // We don't need that base64 thing, just uri is good
+  //         source={{ uri: photo.uri }}
+  //       />
+  //       {hasMediaLibraryPermission && (
+  //         <PostcaptureOptions
+  //           deletePhoto={() => setPhoto(null)}
+  //           savePhoto={savePhoto}
+  //         />
+  //       )}
+  //       <View style={styles.bottomRow}>
+  //         <FAB
+  //           title=""
+  //           icon={{ name: "download", color: "white" }}
+  //           color="#6e6e6e"
+  //         ></FAB>
+  //         <FAB title="Stories" fontWeight="bold" color="#6e6e6e"></FAB>
+  //         <FAB
+  //           title="Send to joe"
+  //           icon={{ name: "send", color: "white" }}
+  //           color="#10A9A1"
+  //           onPress={() => navigation.navigate("SnapScreen")}
+  //         ></FAB>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
   if (showGalleryMenu) {
     return (
@@ -249,11 +252,17 @@ export default function CameraScreen({ navigation, focused }) {
           marginBottom: tabBarHeight,
           paddingTop: insets.top,
           paddingBottom: insets.bottom,
-          backgroundColor: "transparent", // COLOR OF the camera
+          backgroundColor: "rgba(0, 0, 0, 0.00)", // COLOR OF the camera
         },
       ]}
     >
+
+     
+
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
+      <ImageBackground source={{uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png"}} style={styles.pic}>
+      </ImageBackground>
+
 
       <CameraOptions flipCamera={flipCamera} />
 
@@ -269,7 +278,17 @@ export default function CameraScreen({ navigation, focused }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff",
+    backgroundColor:"rgba(0, 0, 0, 0.00)" ,
+  },
+  pic: {
+    
+    position: "absolute",
+    left: -50,
+    top: 0,
+    width: '110%', // Adjust size as needed
+    height: '110%', // Adjust size as needed
+    justifyContent: "center",
+    alignItems: "center",
   },
   bottomRow: {
     position: "absolute",
@@ -305,7 +324,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: "white",
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
   },
   camera: {
@@ -313,6 +332,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.00)",
     borderRadius: 16,
   },
   dropdown: {

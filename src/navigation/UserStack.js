@@ -10,7 +10,7 @@ import AstrologyScreen from "../screens/AstrologyScreen";
 import MemoryScreen from "../screens/MemoryScreen";
 import SendSnapScreen from "../screens/SendSnapScreen";
 import SendToScreen from "../screens/SendToScreen";
-
+import CameraScreenPost from "../screens/CameraScreenPost";
 
 const Stack = createStackNavigator();
 
@@ -52,14 +52,17 @@ export default function App() {
         <Stack.Screen
           name="Astrology"
           component={AstrologyScreen}
-          options={{ headerShown: true}}
-
+          options={{ headerShown: true }}
+        />
+        <Stack.Screen
+          name="CameraScreenPost"
+          component={CameraScreenPost}
+          options={{headerShown: false }}
         />
         <Stack.Screen
           name="SnapScreen"
           component={SendToScreen}
-          options={{ headerShown: true}}
-
+          options={{ headerShown: true }}
         />
       </Stack.Navigator>
     </NavigationContainer>
