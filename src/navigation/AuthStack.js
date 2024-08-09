@@ -9,6 +9,9 @@ import SignUpScreen from "../screens/SignUpScreen"
 import ProfileScreen from "../screens/ProfileScreen"
 import AddFriendScreen from "../screens/AddFriendScreen"
 import SendSnapScreen from "../screens/SendSnapScreen";
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 
 
 const Stack = createStackNavigator();

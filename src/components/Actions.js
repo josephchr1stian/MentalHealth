@@ -79,9 +79,12 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
             >
               <View style={styles.inline}>
                 <Text style={styles.emoji}>{item.prompts.emoji}</Text>
+              
                 <Text style={styles.prompt}>{item.prompts.prompt}</Text>
+                {/* <Text style={styles.context}> {item.prompts.context} </Text> */}
+       
                 <Ionicons
-                  style={styles.arrowIcon}
+                  style={styles.arrowIcon}r
                   name="chevron-forward"
                   size={24}
                   color="#10A9A1"
@@ -137,8 +140,8 @@ const styles = StyleSheet.create({
   listFrame: {
     backgroundColor: "white",
     borderRadius: 20,
-    left: -12,
-    width: 370,
+    left: 0,
+    width: 350,
   },
   Select: {
     borderColor: "#d9d9d9",
@@ -152,12 +155,15 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   context: {
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "semibold",
-    width: 200,
+    
+    fontSize: 8,
+    textAlign: 'left',
+    top: 8,
+    marginBottom: 5,
+    width: 100,
+    color: 'grey',
     marginBottom: 20,
-    backgroundColor: "cyan",
+    
   },
   button: {
     backgroundColor: "white",
@@ -177,14 +183,23 @@ const styles = StyleSheet.create({
   inline: {
     flexDirection: "row",
     alignItems: "center",
+    paddingRight: 10,
+    
   },
   emoji: {
     fontSize: 40,
     marginRight: 10,
+    paddingLeft: 20,
+    marginTop: -5,
   },
   prompt: {
-    fontSize: 18,
+    fontSize: 20,
+    paddingLeft: 30,
+    color: '#10A9A1',
+    fontWeight: "bold",
     flex: 1,
   },
-  arrowIcon: {},
+  arrowIcon: {
+     
+  },
 });
