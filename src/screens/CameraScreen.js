@@ -257,12 +257,9 @@ export default function CameraScreen({ navigation, focused }) {
       ]}
     >
 
-     
-
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
-      <ImageBackground source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Mask group.png"}} style={styles.pic}>
+      <ImageBackground source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/newBit.png"}} style={styles.pic}>
       </ImageBackground>
-
 
       <CameraOptions flipCamera={flipCamera} />
 
@@ -283,10 +280,10 @@ const styles = StyleSheet.create({
   pic: {
     
     position: "absolute",
-    left: -50,
+    left: 0,
     top: 0,
-    width: '110%', // Adjust size as needed
-    height: '110%', // Adjust size as needed
+    width: '100%', // Adjust size as needed
+    height: '107%', // Adjust size as needed
     justifyContent: "center",
     alignItems: "center",
   },
