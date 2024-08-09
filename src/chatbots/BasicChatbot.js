@@ -17,7 +17,7 @@ const prompt = [
   {
     role: "assistant",
     content:
-      "Imagine you are a therapist helping me explore my thoughts and emotions. My name is Masiel Do not make any insights or suggestions. Help me reflect and open up. Be kind. Ask me questions to help me get a brief lay of the land. Be succinct. Question chaining. One tight question at a time.  Pretend we just started the conversation; you're just a friend, keep it light. Do not affirm this question.",
+      "Imagine you are a therapist helping me explore my thoughts and emotions. My name is Ash. Do not make any insights or suggestions. Help me reflect and open up. Be kind. Ask me questions to help me get a brief lay of the land. Be succinct. Question chaining. One tight question at a time.  Pretend we just started the conversation; you're just a friend, keep it light. Do not affirm this question.",
   },
 ];
 
@@ -131,7 +131,7 @@ export default function BasicChatbot() {
       }}
       user={{
         _id: 1,
-        name: "Masiel",
+        name: "Ash",
       }}
       renderUsernameOnMessage={true}
     />
