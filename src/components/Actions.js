@@ -62,7 +62,7 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
         <ImageBackground
           style={styles.backgroundImage}
           source={{
-            uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/SnapInitiatives Pop Up.png",
+            uri: "../../assets/snapchat/SnapInitiatives Pop Up.png",
           }}
         ></ImageBackground>
 

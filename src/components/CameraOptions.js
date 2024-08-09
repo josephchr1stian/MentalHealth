@@ -73,7 +73,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
 
       <ImageBackground
             style = {styles.pic}
-            source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
+            source={{uri: '../../assets/snapchat/myWellVec.png'}}
             >
 
           </ImageBackground>
@@ -139,16 +139,16 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
             <View style={styles.modalContent}>
             <ImageBackground
                 style={styles.ring}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/RING.png"}}
+                source={{uri: "../../assets/snapchat/RING.png"}}
               />
               
             <ImageBackground
                 style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+                source={{uri: "../../assets/snapchat/Blue Filter (2).png"}}
               />
                {/* <ImageBackground
                 style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+                source={{uri: "../../assets/snapchat/Blue Filter (2).png"}}
               /> */}
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>

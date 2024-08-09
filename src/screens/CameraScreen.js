@@ -258,7 +258,7 @@ export default function CameraScreen({ navigation, focused }) {
     >
 
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
-      <ImageBackground source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/newBit.png"}} style={styles.pic}>
+      <ImageBackground source={{uri: "../../assets/snapchat/newBit.png"}} style={styles.pic}>
       </ImageBackground>
 
       <CameraOptions flipCamera={flipCamera} />

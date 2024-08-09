@@ -94,12 +94,12 @@ export default function PostcaptureOptions() {
           <Image
             style={styles.pic}
             source={{
-              uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png",
+              uri: "../../assets/snapchat/myWellVec.png",
             }}
           ></Image>
           {/* <ImageBackground
             style = {styles.pic}
-            source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
+            source={{uri: '../../assets/snapchat/myWellVec.png'}}
             >
 
           </ImageBackground> */}
@@ -149,11 +149,11 @@ export default function PostcaptureOptions() {
  
               <ImageBackground
                 style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+                source={{uri: "../../assets/snapchat/Blue Filter (2).png"}}
               />
                {/* <ImageBackground
                 style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+                source={{uri: "../../assets/snapchat/Blue Filter (2).png"}}
               /> */}
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>
