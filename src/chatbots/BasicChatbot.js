@@ -6,7 +6,6 @@ import defaultProfileImage from "../../assets/snapchat/defaultprofile12.png";
 import { getChat } from "../utils/hooks/getChatGPT";
 import { supabase } from "../utils/hooks/supabase";
 
-
 const CHATBOT_USER_OBJ = {
   _id: 2,
   name: "MyWellness",

@@ -260,7 +260,7 @@ export default function CameraScreen({ navigation, focused }) {
      
 
       <CameraView style={styles.camera} facing={facing} ref={cameraRef} />
-      <ImageBackground source={{uri: "https://i.postimg.cc/VvFzmBwn/SMILE.png"}} style={styles.pic}>
+      <ImageBackground source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Mask group.png"}} style={styles.pic}>
       </ImageBackground>
 
 

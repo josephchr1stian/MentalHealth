@@ -61,7 +61,6 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   function closeBoth() {
     setVisible(false);
     handlePress('heart');
-
   }
 
   useEffect(() => {
@@ -138,7 +137,14 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
       {visible && (
           <View style={styles.modalContainer}>
             <View style={styles.modalContent}>
-              <Text style={styles.action}>{action}</Text>
+            <ImageBackground
+                style={styles.gradient}
+                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+              />
+               <ImageBackground
+                style={styles.gradient}
+                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+              />
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>
           </View>
@@ -183,6 +189,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
   },
+  gradient:{
+    position: "absolute",
+    left: -20,
+    top: -400,
+    width: 480, // Adjust size as needed
+    height: 600, // Adjust size as needed
+    resizeMode: 'cover',
+    tintColor: '#000000',
+    justifyContent: "center",
+    alignItems: "center",
+  },
     captionWrapper: {
     position: 'absolute', // Position text absolutely
     left: -100, // Adjust this value to control the text position
@@ -195,11 +212,11 @@ const styles = StyleSheet.create({
     top: 600,
     width: 400,
     flex: 1,
-    left: -363,
+    left: -375,
     backgroundColor: "rgba(0, 0, 0, 0.0)", // Slightly darkened background
   },
   modalContent: {
-    backgroundColor: "#10A9A199",
+    backgroundColor: "rgba(0, 0, 0, 0.0)",
     borderRadius: 20,
     padding: 20,
     width: "100%",
@@ -221,7 +238,9 @@ const styles = StyleSheet.create({
   },
   suggestion: {
     color: "white",
-    fontSize: 14,
+    top: -40,
+    fontSize: 36,
+    fontWeight: "bold",
   },
 
   expanded: {
