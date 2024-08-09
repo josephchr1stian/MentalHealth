@@ -29,7 +29,7 @@ export default function ProfileScreen() {
   return (
     <View style={{ alignItems: "center" }}>
       <Image
-        source={require("../../assets/snapchat/masiel.jpg")}
+        source={require("/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/IMG_1619.jpg")}
         style={{ width: 150, height: 150, borderRadius: 150 / 2 }}
       />
       <Text style={{ justifyContents: "center" }}>User Name Would Go Here</Text>
