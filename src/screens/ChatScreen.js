@@ -94,13 +94,13 @@ export default function ChatScreen({ navigation }) {
           key={1}
         >
           <PinnedBotBitmoji
-            name={"MyAI"}
+            name={"My AI"}
             imgSource={require("../../assets/snapchat/myai.jpg")}
           ></PinnedBotBitmoji>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setDisclaimerVisible(true)}>
           <PinnedBotBitmoji
-            name={"myWellness"}
+            name={"My Wellness"}
             imgSource={require("../../assets/snapchat/mywellness.png")}
             streak={streak} // State Variable we can update
           ></PinnedBotBitmoji>
