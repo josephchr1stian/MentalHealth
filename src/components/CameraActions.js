@@ -37,10 +37,18 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.9,
+    shadowRadius: 4,
+    elevation: 5, // For Android
   },
   photosIcon: {
     flex: 1,
     alignItems: "center",
+    textShadowColor: 'red',
+    
+    
   },
   pictureIcon: {
     flex: 1,

@@ -16,7 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 export default function PostcaptureOptions() {
   const insets = useSafeAreaInsets();
   const [action, setAction] = useState("Lead with Compassion");
-  const [suggestion, setSuggestion] = useState("It never fails <3");
+  const [suggestion, setSuggestion] = useState("Let them know you're thinking of them");
   const [visible, setVisible] = useState(true);
   const [textVis, setTextVis] = useState(false);
   const navigation = useNavigation();
