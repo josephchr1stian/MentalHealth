@@ -24,7 +24,7 @@ export default function PostcaptureOptions() {
   const fetchData = async () => {
     try {
       const { data, error } = await supabase
-        .from("allPrompt")
+        .from("allPrompt_ii")
         .select("*")
         .eq("category", "snap");
       if (error) {
@@ -171,19 +171,18 @@ export default function PostcaptureOptions() {
 
 const styles = StyleSheet.create({
   cameraOptions: {
-    position: "absolute",
-    right: 12,
-    paddingTop: 8,
-    height: 250,
-    width: 40,
-    padding: 5,
+    position: "relative",
+    left: '86%',
+    bottom: '18%',
+    paddingTop: 20,
+    width: '12%',
+    height: '55%',
   },
   deleteIcon: {
-    position: "absolute",
-    left: 12,
+    position: "relative",
+    left: '00%',
     paddingTop: 8,
-    height: 250,
-    width: 40,
+    height: '8%',
     padding: 5,
   },
   gradient:{

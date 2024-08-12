@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ImageBackground, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Dialog, FAB } from "react-native-elements";
@@ -14,18 +21,17 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   const [pressedIcon, setPressedIcon] = useState(null);
 
   const fetchData = async () => {
-
     try {
       const { data, error } = await supabase
-        .from("allPrompt")
+        .from("allPrompt_ii")
         .select("*")
         .eq("category", "snap");
       if (error) {
         console.error("Error fetching data:", error);
       } else {
-
         setAction(data[0].prompts.prompt);
         setSuggestion(data[0].prompts.context);
+        console.log(data);
       }
     } catch (error) {
       console.error("Unexpected error:", error);
@@ -54,13 +60,12 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
     if (icon === "heart") {
       console.log("heart clicked");
       setVisible(!visible);
-      
     }
   };
 
   function closeBoth() {
     setVisible(false);
-    handlePress('heart');
+    handlePress("heart");
   }
 
   useEffect(() => {
@@ -69,14 +74,12 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
 
   return (
     <View style={[styles.cameraOptions, { marginTop: insets.top }]}>
-
-
       <ImageBackground
-            style = {styles.pic}
-            source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
-            >
-
-          </ImageBackground>
+        style={styles.pic}
+        source={{
+          uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png",
+        }}
+      ></ImageBackground>
 
       <View style={styles.iconContainer}>
         {[
@@ -120,7 +123,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
           <TouchableOpacity key={index} onPress={() => handlePress(icon.name)}>
             <View style={styles.iconRow}>
               {pressedIcon === icon.name && (
-                <View style = {styles.captionWrapper}>
+                <View style={styles.captionWrapper}>
                   <Text style={styles.caption}>{icon.caption}</Text>
                 </View>
               )}
@@ -135,36 +138,37 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
         ))}
       </View>
       {visible && (
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
             <ImageBackground
-                style={styles.ring}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/RING.png"}}
-              />
-              
+              style={styles.ring}
+              source={{
+                uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/RING.png",
+              }}
+            />
+
             <ImageBackground
-                style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
-              />
-               {/* <ImageBackground
-                style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
-              /> */}
-              <Text style={styles.suggestion}>{suggestion}</Text>
-            </View>
+              style={styles.gradient}
+              source={{
+                uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png",
+              }}
+            />
+            <Text style={styles.suggestion}>{suggestion}</Text>
           </View>
-        )}
+        </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cameraOptions: {
-    position: "absolute",
-    right: 12,
+    position: "relative",
+    left: '86%',
+    bottom: '45%',
     paddingTop: 20,
-    height: 320,
-    width: 45,
+    width: '12%',
+    height: '55%',
     padding: 5,
     borderRadius: 20,
     backgroundColor: "rgba(52, 52, 52, 0.6)",
@@ -180,11 +184,10 @@ const styles = StyleSheet.create({
     top: 62,
     width: 88, // Adjust size as needed
     height: 88, // Adjust size as needed
-    resizeMode: 'cover',
-    tintColor: '#000000',
+    resizeMode: "cover",
+    tintColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
-
   },
   iconRow: {
     marginTop: 20,
@@ -196,40 +199,36 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: "16",
   },
-  pic : {
-    position: 'absolute',
+  pic: {
+    position: "absolute",
     left: -3,
     top: 160,
     width: 50, // Adjust size as needed
     height: 50, // Adjust size as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-
-  },
-  gradient:{
-    position: "absolute",
-    left: -20,
-    top: -400,
-    width: 480, // Adjust size as needed
-    height: 600, // Adjust size as needed
-    resizeMode: 'cover',
-    tintColor: '#000000',
     justifyContent: "center",
     alignItems: "center",
   },
-    captionWrapper: {
-    position: 'absolute', // Position text absolutely
-    left: -100, // Adjust this value to control the text position
-    backgroundColor: 'transparent', // Background color
+  gradient: {
+    position: "relative",
+    width: "auto", // Adjust size as needed
+    height: "auto", // Adjust size as needed
+    backgroundColor: "red",
+    tintColor: "#000000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  captionWrapper: {
+    position: "relative", // Position text absolutely
+    // Adjust this value to control the text position
+    backgroundColor: "transparent", // Background color
     padding: 5, // Padding around text
     zIndex: 1, // Ensure text is on top
   },
   modalContainer: {
-    position: "absolute",
-    top: 600,
-    width: 400,
+    position: "relative",
+
     flex: 1,
-    left: -375,
+
     backgroundColor: "rgba(0, 0, 0, 0.0)", // Slightly darkened background
   },
   modalContent: {
@@ -240,8 +239,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   suggest: {
-    position: "absoloute",
-    top: 200,
+    position: "relative",
     backgroundColor: "rgba(52, 52, 52, 0.0)",
     width: "90%",
   },
@@ -255,10 +253,11 @@ const styles = StyleSheet.create({
   },
   suggestion: {
     color: "white",
-    top: -40,
+    position: "relative",
+    justifyContent: "center",
     fontSize: 36,
     fontWeight: "bold",
-    textShadowColor: 'black',
+    textShadowColor: "black",
     textShadowRadius: 10,
   },
 
