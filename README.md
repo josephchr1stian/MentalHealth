@@ -1,5 +1,5 @@
 # My Wellness
-
+<img width="494" alt="Screenshot 2024-08-14 at 10 51 44 AM" src="https://github.com/user-attachments/assets/67a24a6c-c755-4ffa-b3e0-d000321ceef3">
 
 Statistics show 39% of students in college will experience a significant mental health issue along with that 50% of mental health issues begin in most people at the age of 14. How might we facilitate connections between users that encourages them to be intentional about reaching out while reaching in emotionally to improve their mental health? Introducing My Wellness, Where mindfulness fosters connection. 
 
@@ -8,11 +8,10 @@ Young adults and teens lack tools and guidance, reaching out to their support sy
 Incorporating wellness into their life
 My Wellness is a React Native app designed to provide users with initiatives to incorporate mindfulness into their everyday lives. 
 
-
 My Wellness is a group project made for Snap Academies 2024 final showcase.
 
 # Setup and Development
-
+<img width="885" alt="Screenshot 2024-08-14 at 10 50 00 AM" src="https://github.com/user-attachments/assets/60861c93-02c9-48f8-84cf-7d543bec7187">
 
 ## Prototype
 We developed our prototype using React Native, Expo, and Apple's Xcode simulator, ensuring compatibility with iOS platforms. The app is optimized for recent iPhone models.
