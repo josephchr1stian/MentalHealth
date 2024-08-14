@@ -1,5 +1,3 @@
-“My Wellness” read me
-
 # My Wellness
 
 
@@ -13,10 +11,10 @@ My Wellness is a React Native app designed to provide users with initiatives to 
 
 My Wellness is a group project made for Snap Academies 2024 final showcase.
 
-## Setup and Development
+# Setup and Development
 
 
-# Prototype
+## Prototype
 We developed our prototype using React Native, Expo, and Apple's Xcode simulator, ensuring compatibility with iOS platforms. The app is optimized for recent iPhone models.
 # How To Use
 
@@ -32,12 +30,12 @@ Password: MyWellness2024
 4. Scan the QR code from our project URL with your phone camera or with a QR code scanner. A banner will appear prompting you to open the Expo app. Click on it.
 5. My Wellness app should now open and display an onboarding screen similar to Snapchat.
 
-# Limitations
+## Limitations
 We were unable to implement all the features we had planned for our app due to technical limitations and time constraints. As a result, the following features were not included:
 Check-Ins
 Live and Present
 
-# Implementation Details
+## Implementation Details
 Daily Snaps
 Daily Snaps are four wellness-focused initiatives that we prompt the user with daily. These initiatives include Snap Besties, Check-Ins, Live and Present, and My Wellness AI. By completing any of these four initiatives each day, users can build and maintain a wellness streak, encouraging daily engagement and mindfulness.
 For the Snap Besties initiative, we have curated a set of prompts stored in a table in Supabase. Each day, the user will receive a new prompt encouraging them to reach out and "snap" a bestie. 
@@ -47,7 +45,7 @@ My Wellness AI is a carefully prompt-engineered chatbot designed to help users n
 
 As for the future of my wellness” we plan to expand the features reach an positive impact by incorporating automated links to hotline when the AI guide detects key crisis indicator vocab from the user, we also plan to implement a long term progress track so users are able to have the option to view past prompts completed throughout the months and years. 
 
-# How To Use: Project Repository
+## How To Use: Project Repository
 
 If you’d like to be able to take a look at our source code and run the app using the project repository, follow these instructions. To run the app using Expo and our project repository: 
 1. Install the Expo app onto your phone from the App store. 
@@ -71,7 +69,7 @@ Expo app. Click on it.
 10. My Wellness app should now open and display an onboarding screen.
 
 
-## Fork the Repository 
+# Fork the Repository 
 Click on the Fork button: This is usually found in the top-right corner of the repository's page. This will create a copy of the repository under your own GitHub account.
 
 ## Clone the Forked Repository
@@ -84,13 +82,13 @@ $ git clone https://github.com/your-username/repository-name.git
 ```
 4. Navigate to the repository directory
 
-# Install Yarn
+## Install Yarn
 1. Run the following command to be able to run your program.
 ```js
 $ git yarn install
 ```
 
-# Set Up the Upstream Remote
+## Set Up the Upstream Remote
 1. Add the original repository as a remote: This allows you to pull in updates from the original repository.
 ```js
 $ git remote add upstream https://github.com/Snap-Engineering-Academy-2024/SnapChatStarter.git
