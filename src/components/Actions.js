@@ -43,10 +43,18 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
     console.log(data);
   };
 
-  function handleThat(update, close) {
+  function handleThat(update, close, action) {
+    console.log(action, 'it were')
+    if (action == 'My AI Guide')
+    {
+      navigation.navigate('Conversation')
+    }
+    else {
     navigation.navigate("Camera");
+    }
     update();
     close();
+    
   }
   useEffect(() => {
     fetchData();
@@ -74,7 +82,7 @@ export default function Actions({ isVisible, onClose, updateStreak }) {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => handleThat(updateStreak, onClose)}
+              onPress={() => handleThat(updateStreak, onClose,item.prompts.prompt)}
               style={styles.button}
             >
               <View style={styles.inline}>

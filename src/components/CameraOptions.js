@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ImageBackground, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ImageBackground,
+  Modal,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Dialog, FAB } from "react-native-elements";
@@ -12,18 +19,19 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   const [action, setAction] = useState("Lead with Compassion");
   const [suggestion, setSuggestion] = useState("It never fails <3");
   const [pressedIcon, setPressedIcon] = useState(null);
+  const [bank, setBank] = useState([])
 
   const fetchData = async () => {
-
     try {
       const { data, error } = await supabase
-        .from("allPrompt")
+        .from("allPrompt_ii")
         .select("*")
         .eq("category", "snap");
       if (error) {
         console.error("Error fetching data:", error);
       } else {
-
+        console.log(data)
+        setBank(data)
         setAction(data[0].prompts.prompt);
         setSuggestion(data[0].prompts.context);
       }
@@ -39,9 +47,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
       setFlashState("flash-off-outline");
     }
   }
-  // function handlePress() {
-  //   setVisible(!visible);
-  // }
+
 
   function getRandomAction(arr) {
     const randomIndex = Math.floor(Math.random() * arr.length);
@@ -49,18 +55,24 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
   }
 
   const handlePress = (icon) => {
-    console.log(icon);
+    
     setPressedIcon(icon === pressedIcon ? null : icon);
     if (icon === "heart") {
-      console.log("heart clicked");
-      setVisible(!visible);
       
+      setVisible(!visible);
     }
   };
 
+   function changeAction(){
+    let x  = getRandomAction(bank)
+    console.log("Word bank", x.prompts.context)
+    setSuggestion(x.prompts.context)
+
+   }
+
   function closeBoth() {
     setVisible(false);
-    handlePress('heart');
+    handlePress("heart");
   }
 
   useEffect(() => {
@@ -69,14 +81,12 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
 
   return (
     <View style={[styles.cameraOptions, { marginTop: insets.top }]}>
-
-
       <ImageBackground
-            style = {styles.pic}
-            source={{uri: '/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png'}}
-            >
-
-          </ImageBackground>
+        style={styles.pic}
+        source={{
+          uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/myWellVec.png",
+        }}
+      ></ImageBackground>
 
       <View style={styles.iconContainer}>
         {[
@@ -120,7 +130,7 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
           <TouchableOpacity key={index} onPress={() => handlePress(icon.name)}>
             <View style={styles.iconRow}>
               {pressedIcon === icon.name && (
-                <View style = {styles.captionWrapper}>
+                <View style={styles.captionWrapper}>
                   <Text style={styles.caption}>{icon.caption}</Text>
                 </View>
               )}
@@ -135,25 +145,31 @@ export default function CameraOptions({ flipCamera, switchFlash }) {
         ))}
       </View>
       {visible && (
-          <View style={styles.modalContainer}>
+        <View style={styles.modalContainer}>
+          <TouchableOpacity onPress={()=> changeAction()}>
             <View style={styles.modalContent}>
-            <ImageBackground
+              <ImageBackground
                 style={styles.ring}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/RING.png"}}
+                source={{
+                  uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/RING.png",
+                }}
               />
-              
-            <ImageBackground
+
+              <ImageBackground
                 style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
+                source={{
+                  uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png",
+                }}
               />
-               {/* <ImageBackground
+              {/* <ImageBackground
                 style={styles.gradient}
                 source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
               /> */}
               <Text style={styles.suggestion}>{suggestion}</Text>
             </View>
-          </View>
-        )}
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -177,14 +193,13 @@ const styles = StyleSheet.create({
   ring: {
     position: "absolute",
     left: 172,
-    top: 62,
-    width: 88, // Adjust size as needed
-    height: 88, // Adjust size as needed
-    resizeMode: 'cover',
-    tintColor: '#000000',
+    top: 75,
+    width: 70, // Adjust size as needed
+    height: 60, // Adjust size as needed
+    resizeMode: "cover",
+    tintColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
-
   },
   iconRow: {
     marginTop: 20,
@@ -196,40 +211,39 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: "16",
   },
-  pic : {
-    position: 'absolute',
+  pic: {
+    position: "absolute",
     left: -3,
     top: 160,
     width: 50, // Adjust size as needed
     height: 50, // Adjust size as needed
-    justifyContent: 'center',
-    alignItems: 'center',
-
+    justifyContent: "center",
+    alignItems: "center",
   },
-  gradient:{
+  gradient: {
     position: "absolute",
     left: -20,
     top: -400,
     width: 480, // Adjust size as needed
     height: 600, // Adjust size as needed
-    resizeMode: 'cover',
-    tintColor: '#000000',
+    resizeMode: "cover",
+    tintColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
   },
-    captionWrapper: {
-    position: 'absolute', // Position text absolutely
+  captionWrapper: {
+    position: "absolute", // Position text absolutely
     left: -100, // Adjust this value to control the text position
-    backgroundColor: 'transparent', // Background color
+    backgroundColor: "transparent", // Background color
     padding: 5, // Padding around text
     zIndex: 1, // Ensure text is on top
   },
   modalContainer: {
     position: "absolute",
-    top: 600,
+    top: 520,
     width: 400,
     flex: 1,
-    left: -375,
+    left: -345,
     backgroundColor: "rgba(0, 0, 0, 0.0)", // Slightly darkened background
   },
   modalContent: {
@@ -258,7 +272,7 @@ const styles = StyleSheet.create({
     top: -40,
     fontSize: 36,
     fontWeight: "bold",
-    textShadowColor: 'black',
+    textShadowColor: "black",
     textShadowRadius: 10,
   },
 

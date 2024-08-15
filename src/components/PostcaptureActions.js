@@ -20,16 +20,18 @@ export default function PostcaptureOptions() {
   const [visible, setVisible] = useState(true);
   const [textVis, setTextVis] = useState(false);
   const navigation = useNavigation();
+  const [bank, setBank] = useState([])
 
   const fetchData = async () => {
     try {
       const { data, error } = await supabase
-        .from("allPrompt")
+        .from("allPrompt_ii")
         .select("*")
         .eq("category", "snap");
       if (error) {
         console.error("Error fetching data:", error);
       } else {
+        setBank(data)
         setAction(data[0].prompts.prompt);
         setSuggestion(data[0].prompts.context);
       }
@@ -37,6 +39,18 @@ export default function PostcaptureOptions() {
       console.error("Unexpected error:", error);
     }
   };
+
+  function getRandomAction(arr) {
+    const randomIndex = Math.floor(Math.random() * arr.length);
+    return arr[randomIndex];
+  }
+
+  function changeAction(){
+    let x  = getRandomAction(bank)
+    console.log("Word bank", x.prompts.context)
+    setSuggestion(x.prompts.context)
+
+   }
 
   function toggleVis() {
     setVisible(!visible);
@@ -58,9 +72,9 @@ export default function PostcaptureOptions() {
       </View>
       <View style={[styles.cameraOptions, { marginTop: insets.top }]}>
         <TouchableOpacity
-         onPress={() => {
-          setTextVis(!textVis);
-        }}
+          onPress={() => {
+            setTextVis(!textVis);
+          }}
         >
           <Ionicons
             style={styles.textIcon}
@@ -142,26 +156,29 @@ export default function PostcaptureOptions() {
             color="white"
           />
         </TouchableOpacity>
+
         {visible && (
           <View style={styles.modalContainer}>
-            
             <View style={styles.modalContent}>
- 
-              <ImageBackground
-                style={styles.gradient}
-                source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
-              />
-               {/* <ImageBackground
+              <TouchableOpacity onPress={() => changeAction()}>
+                <ImageBackground
+                  style={styles.gradient}
+                  source={{
+                    uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png",
+                  }}
+                />
+                {/* <ImageBackground
                 style={styles.gradient}
                 source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/Blue Filter (2).png"}}
               /> */}
-              <Text style={styles.suggestion}>{suggestion}</Text>
+                <Text style={styles.suggestion}>{suggestion}</Text>
+              </TouchableOpacity>
             </View>
           </View>
         )}
-         {textVis && (
+        {textVis && (
           <View style={styles.textBanner}>
-            <Text style= {styles.textInBan}>                        Miss u bestie {'<'}3!!!</Text>
+            <Text style={styles.textInBan}> Miss u bestie {"<"}3!!!</Text>
           </View>
         )}
       </View>
@@ -186,14 +203,14 @@ const styles = StyleSheet.create({
     width: 40,
     padding: 5,
   },
-  gradient:{
+  gradient: {
     position: "absolute",
     left: -20,
     top: -400,
     width: 480, // Adjust size as needed
     height: 600, // Adjust size as needed
-    resizeMode: 'cover',
-    tintColor: '#000000',
+    resizeMode: "cover",
+    tintColor: "#000000",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -202,28 +219,24 @@ const styles = StyleSheet.create({
     top: 200,
     backgroundColor: "rgba(52, 52, 52, 0.0)",
     width: "90%",
-    
   },
   backdrop: {
     backgroundColor: "rgba(0, 0, 0, 0.01)",
   },
   textBanner: {
-    position: 'absolute',
-    backgroundColor : 'rgba(32, 31, 32, 0.7)',
-    width: 'auto',
+    position: "absolute",
+    backgroundColor: "rgba(32, 31, 32, 0.7)",
+    width: "auto",
     left: -380,
-    width:450,
+    width: 450,
     height: 35,
     top: 440,
-    
-
   },
   textInBan: {
-    color: 'white',
-    justifyContent: 'center',
+    color: "white",
+    justifyContent: "center",
     fontSize: 20,
     marginTop: 5,
-
   },
   textIcon: {
     marginTop: 10,
@@ -233,18 +246,18 @@ const styles = StyleSheet.create({
   },
   modalContainer: {
     position: "absolute",
-    top: 630,
+    top: 600,
     width: 400,
     flex: 1,
-    left: -363,
-     // Slightly darkened background
+    left: -343,
+    // Slightly darkened background
   },
   modalContent: {
     borderRadius: 10,
     padding: 20,
     left: -20,
     width: "110%",
-    alignItems: "center",
+    // alignItems: "center",
   },
   action: {
     color: "white",
@@ -256,7 +269,7 @@ const styles = StyleSheet.create({
     top: -70,
     fontSize: 40,
     fontWeight: "bold",
-    textShadowColor: 'black',
+    textShadowColor: "black",
     textShadowRadius: 10,
   },
   pencilIcon: {

@@ -48,6 +48,7 @@ export default function CameraScreenPost({ route }) {
     });
   }
 
+
   return (
     <View
       style={[
@@ -60,6 +61,7 @@ export default function CameraScreenPost({ route }) {
         },
       ]}
     >
+   
    <ImageBackground source={{uri: "/Users/christian/VsCodeProjects/MentalHealth/assets/snapchat/newBit.png"}} style={styles.pic}>
    </ImageBackground>
  
